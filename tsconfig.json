@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "rootDir": ".",
+    "jsx": "react",
+    "declaration": true,
+    "declarationDir": "types",
+    "sourceMap": true,
+    "outDir": "dist",
+    "noEmit": false,
+    "moduleResolution": "Node",
+    "allowSyntheticDefaultImports": true,
+    "emitDeclarationOnly": true
+  },
+  "include": ["src"],
+  "exclude": ["**/*.stories.tsx", "node_modules"]
+}
+// npm i --save-dev  @rollup/plugin-node-resolve  @rollup/plugin-commonjs
+// @rollup/plugin-terser @rollup/plugin-typescript rollup rollup-plugin-dts
+// rollup-plugin-peer-deps-external
+
+// npx -p @storybook/cli sb init
