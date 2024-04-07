@@ -5,9 +5,16 @@ import { palette } from '.';
 
 # Palette
 
+## 사용 방법
+
+<Source
+  language="js"
+  dark
+  code={`import { primary, success } from 'cocorig-ui';`}
+/>
+
 export function colorPaletteList(items) {
   return Object.entries(items).map(([key, color]) => {
-   
       return <ColorItem title={key} subtitle="" colors={{ [key]: color }} />;
 
 });
