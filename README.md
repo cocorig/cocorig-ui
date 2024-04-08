@@ -26,23 +26,24 @@ setting , npm 배포 테스트
 3 일차
 </summary>
 
-- spacing
-  spacing은 @emotion의 SerializedStyles를 return 하는 함수로 아래와 같이 사용할 수 있지만 아래와 같은 에러가 발생했다. 이 에러는 Emotion의 css 함수를 사용하여 생성된 스타일 객체를 문자열로 변환하려고 시도했기 때문에 발생한 현상이다.
+- spacing <br>
+  spacing은 @emotion의 SerializedStyles를 return 하는 함수로 아래 코드와 같이 사용할 수 있지만 Emotion css props 에러가 발생했다. 이 에러는 Emotion의 css 함수를 사용하여 생성된 스타일 객체를 문자열로 변환하려고 시도했기 때문에 발생한 현상이다.
 
 ```tsx
-
- <button css={[spacing.mx(3), spacing.my(4)]}>버튼</button>;
-/*
-You have tried to stringify object returned from `css` function. It isn't supposed to be used directly (e.g. as value of the `className` prop), but rather handed to emotion so it can handle it (e.g. as value of `css` prop).,You have tried to stringify object returned from `css` function. It isn't supposed to be used directly (e.g. as value of the `className` prop), but rather handed to emotion so it can handle it (e.g. as value of `css` prop).
-
+<button css={[spacing.mx(3), spacing.my(4)]}>버튼</button>
 ```
+
+- 에러 메세지
+
+> You have tried to stringify object returned from `css` function. It isn't supposed to be used directly (e.g. as value of the `className` prop), but rather handed to emotion so it can handle it (e.g. as value of `css` prop).,You have tried to stringify object returned from `css` function. It isn't supposed to be used directly (e.g. as value of the `className` prop), but rather handed to emotion so it can handle it (e.g. as value of `css` prop).
 
 ```tsx
 <button css={spacing.my(4)}>버튼</button>
-/*
-css="You have tried to stringify object returned from `css` function. It isn't supposed to be used directly (e.g. as value of the `className` prop), but rather handed to emotion so it can handle it (e.g. as value of `css` prop)."
- */
 ```
+
+- 에러 메세지
+
+> css="You have tried to stringify object returned from `css` function. It isn't supposed to be used directly (e.g. as value of the `className` prop), but rather handed to emotion so it can handle it (e.g. as value of `css` prop)."
 
 따라서 각 페이지마다 `/** @jsxImportSource @emotion/react */` 주석을 달아주는 방법이 있고, `craco 설치` 및 설정해 주는 방법이 있는데 아래와 같이 `styled 컴포넌트`를 생성해서 적용하는 방법도 있다.
 
