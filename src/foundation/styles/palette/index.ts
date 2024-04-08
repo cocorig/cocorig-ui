@@ -7,7 +7,7 @@ import {
   purple,
   indigo,
   orange,
-} from '../color';
+} from '../../color';
 
 // primary : 주요 색상
 export const primary = orange[500];
