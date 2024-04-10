@@ -59,4 +59,21 @@ export const spacing: Spacing = {
     padding-left: ${value * STANDARD}px;
     padding-right: ${value * STANDARD}px;
   `,
+} as const;
+// 리팩토링 필요
+export type SpacingProps = {
+  m?: number;
+  mb?: number;
+  ml?: number;
+  mr?: number;
+  mt?: number;
+  mx?: number;
+  my?: number;
+  p?: number;
+  pb?: number;
+  pl?: number;
+  pr?: number;
+  pt?: number;
+  px?: number;
+  py?: number;
 };
