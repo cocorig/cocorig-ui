@@ -2,9 +2,10 @@ import { css, SerializedStyles } from '@emotion/react';
 
 const STANDARD = 4;
 
-interface Spacing {
+export interface Spacing {
   [key: string]: (value: number) => SerializedStyles;
 }
+export type SpacingStyles = SerializedStyles;
 
 export const spacing: Spacing = {
   mt: (value) => css`
@@ -60,6 +61,17 @@ export const spacing: Spacing = {
     padding-right: ${value * STANDARD}px;
   `,
 } as const;
+
+export const getPaddingStyle = (
+  vertical: number,
+  horizontal: number,
+): SerializedStyles => {
+  return css`
+    ${spacing.py(vertical)};
+    ${spacing.p(horizontal)};
+  `;
+};
+
 // 리팩토링 필요
 export type SpacingProps = {
   m?: number;
