@@ -66,3 +66,15 @@ export const palette = {
   discovery: discovery,
   action: action,
 } as const;
+
+export type ColorSet = {
+  error: string;
+  success: string;
+  warning: string;
+};
+
+export const COLOR_SET: ColorSet = {
+  error: dangerDark,
+  success: successDark,
+  warning: warningDark,
+};
