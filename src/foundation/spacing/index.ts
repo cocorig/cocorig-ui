@@ -2,10 +2,37 @@ import { css, SerializedStyles } from '@emotion/react';
 
 const STANDARD = 4;
 
+/**
+ * SpacingProps는 컴포넌트의 각 속성에 대한 값들을 나타낸다.
+ */
+// export type SpacingProps = {
+//   [key in keyof Spacing]?: number;
+// };
+export enum SpacingType {
+  MARGIN = 'margin',
+  PADDING = 'padding',
+}
 export interface Spacing {
   [key: string]: (value: number) => SerializedStyles;
 }
+export type SpacingProps = Record<SpacingType, number>;
 export type SpacingStyles = SerializedStyles;
+
+/**
+ * 세로와 가로 간격의 스타일을 반환하는 함수
+ * @param vertical 세로 간격 값
+ * @param horizontal 가로 간격 값
+ * @returns {SerializedStyles}
+ */
+export const getPaddingStyle = (
+  vertical: number,
+  horizontal: number,
+): SerializedStyles => {
+  return css`
+    ${spacing.py(vertical)};
+    ${spacing.px(horizontal)};
+  `;
+};
 
 export const spacing: Spacing = {
   mt: (value) => css`
@@ -61,31 +88,3 @@ export const spacing: Spacing = {
     padding-right: ${value * STANDARD}px;
   `,
 } as const;
-
-export const getPaddingStyle = (
-  vertical: number,
-  horizontal: number,
-): SerializedStyles => {
-  return css`
-    ${spacing.py(vertical)};
-    ${spacing.p(horizontal)};
-  `;
-};
-
-// 리팩토링 필요
-export type SpacingProps = {
-  m?: number;
-  mb?: number;
-  ml?: number;
-  mr?: number;
-  mt?: number;
-  mx?: number;
-  my?: number;
-  p?: number;
-  pb?: number;
-  pl?: number;
-  pr?: number;
-  pt?: number;
-  px?: number;
-  py?: number;
-};
