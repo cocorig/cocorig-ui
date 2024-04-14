@@ -1,30 +1,43 @@
 import React, { forwardRef, InputHTMLAttributes, ForwardedRef } from 'react';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
-import { SpacingStyles, spacing } from '../../foundation/spacing';
-import { ColorSet, COLOR_SET } from '../../foundation/styles/palette';
-import { neutralDark, neutral } from '../../foundation/styles/palette';
+import { SerializedType, spacing } from '../../foundation/spacing';
+import { SizeKeyType, SIZE_SET } from '../../foundation/styles/size';
 import {
-  ComponentBorderKey,
+  BorderKeyType,
   BORDER_RADIUS_SET,
 } from '../../foundation/styles/border';
+import {
+  ColorSetType,
+  COLOR_SET,
+  neutralDark,
+  neutral,
+} from '../../foundation/styles/palette';
 
-type InputVariant = keyof ColorSet;
-type Size = 'lg' | 'md' | 'sm'; // TODO: 공통 사이즈 타입 지정
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+type InputVariantType = keyof ColorSetType;
+type InputSizeKeyType = Pick<typeof SIZE_SET, 'sm' | 'md' | 'lg'>;
+
+export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+  variant?: InputVariantType;
   helperText?: string;
-  variant?: InputVariant;
+  inputSize?: keyof InputSizeKeyType;
+  radius?: BorderKeyType;
+  iconSize?: number;
   leftIcon?: React.ReactElement;
   rightIcon?: React.ReactElement;
-  inputSize?: Size;
-  radius?: ComponentBorderKey;
-  iconSize?: number;
 }
-
-const SIZE_SET: {
-  [key in Size]: {
-    paddingLeft: string | SpacingStyles;
-    paddingRight: string | SpacingStyles;
+interface InputStyleType {
+  borderColor: string;
+  radius: BorderKeyType;
+  textSize: SizeKeyType;
+  heightSize: string;
+  paddingLeft: string | SerializedType;
+  paddingRight: string | SerializedType;
+}
+const INPUT_SIZE_SET: {
+  [key in keyof InputSizeKeyType]: {
+    paddingLeft: string | SerializedType;
+    paddingRight: string | SerializedType;
   };
 } = {
   sm: {
@@ -39,21 +52,14 @@ const SIZE_SET: {
     paddingLeft: spacing.pl(6),
     paddingRight: spacing.pr(6),
   },
-} as const;
+};
 
-const HEIGHT_SIZE_SET: { [key in Size]: string } = {
+const HEIGHT_SIZE_SET: { [key in keyof InputSizeKeyType]: string } = {
   sm: '2rem',
   md: '3rem',
   lg: '4rem',
 } as const;
-
-const FONT_SIZE_SET: { [key in Size]: string } = {
-  sm: '.875rem',
-  md: '1rem',
-  lg: '1.125rem',
-} as const;
-
-const getColorStyle = (variant?: InputVariant): string => {
+const getColorStyle = (variant?: InputVariantType): string => {
   return variant && COLOR_SET[variant] ? COLOR_SET[variant] : neutralDark;
 };
 
@@ -75,7 +81,7 @@ const Input = (
   const helperTextColor = getColorStyle(variant);
   const hasLeftIcon = !!leftIcon;
   const hasRightIcon = !!rightIcon;
-  const sizeStyle = SIZE_SET[inputSize];
+  const sizeStyle = INPUT_SIZE_SET[inputSize];
   let paddingLeft = sizeStyle.paddingLeft;
   let paddingRight = sizeStyle.paddingRight;
 
@@ -95,9 +101,9 @@ const Input = (
     <Wrapper>
       <div style={{ position: 'relative', display: 'flex', width: '100%' }}>
         {leftIcon && (
-          <IconBox className="leftIcon" iconSize={iconSize}>
+          <IconContainer className="leftIcon" iconSize={iconSize}>
             {leftIcon}
-          </IconBox>
+          </IconContainer>
         )}
         <BaseInput
           type={type}
@@ -111,9 +117,9 @@ const Input = (
           {...props}
         />
         {rightIcon && (
-          <IconBox className="rightIcon" iconSize={iconSize}>
+          <IconContainer className="rightIcon" iconSize={iconSize}>
             {rightIcon}
-          </IconBox>
+          </IconContainer>
         )}
       </div>
       {helperText && (
@@ -136,14 +142,7 @@ const Wrapper = styled.div`
   width: 100%;
 `;
 
-const BaseInput = styled.input<{
-  borderColor: string;
-  radius: ComponentBorderKey;
-  textSize: Size;
-  heightSize: string;
-  paddingLeft: string | SpacingStyles; // TODO
-  paddingRight: string | SpacingStyles;
-}>`
+const BaseInput = styled.input<InputStyleType>`
   width: 100%;
   height: ${({ heightSize }) => heightSize};
   color: black;
@@ -151,7 +150,7 @@ const BaseInput = styled.input<{
   border: 1px solid ${({ borderColor }) => borderColor || neutralDark};
   border-radius: ${({ radius }) =>
     BORDER_RADIUS_SET[radius] || BORDER_RADIUS_SET['default']};
-  font-size: ${({ textSize }) => FONT_SIZE_SET[textSize]};
+  font-size: ${({ textSize }) => SIZE_SET[textSize]};
   ${({ paddingLeft }) => paddingLeft};
   ${({ paddingRight }) => paddingRight};
 
@@ -166,7 +165,7 @@ const BaseInput = styled.input<{
   }
 `;
 
-const IconBox = styled.div<{ iconSize?: number }>`
+const IconContainer = styled.div<{ iconSize?: number }>`
   width: ${({ iconSize }) => (iconSize ? `${iconSize}px` : '30px')};
   height: ${({ iconSize }) => (iconSize ? `${iconSize}px` : '30px')};
   display: flex;
@@ -186,14 +185,13 @@ const IconBox = styled.div<{ iconSize?: number }>`
 `;
 const HelperText = styled.span<{
   color: string;
-  textSize: Size;
+  textSize: SizeKeyType;
   heightSize: string;
 }>`
   position: absolute;
   width: 100%;
   bottom: -50%;
-  /* font-size: 14px; */
-  font-size: ${({ textSize }) => `calc(${FONT_SIZE_SET[textSize]} - 0.1rem)`};
+  font-size: ${({ textSize }) => `calc(${SIZE_SET[textSize]} - 0.1rem)`};
   color: ${({ color }) => color || neutralDark};
 `;
 
