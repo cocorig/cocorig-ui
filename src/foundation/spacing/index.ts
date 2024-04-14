@@ -2,21 +2,26 @@ import { css, SerializedStyles } from '@emotion/react';
 
 const STANDARD = 4;
 
-/**
- * SpacingProps는 컴포넌트의 각 속성에 대한 값들을 나타낸다.
- */
-// export type SpacingProps = {
-//   [key in keyof Spacing]?: number;
-// };
-export enum SpacingType {
-  MARGIN = 'margin',
-  PADDING = 'padding',
-}
 export interface Spacing {
   [key: string]: (value: number) => SerializedStyles;
 }
-export type SpacingProps = Record<SpacingType, number>;
-export type SpacingStyles = SerializedStyles;
+export type SpacingPropType = {
+  m?: number;
+  mb?: number;
+  ml?: number;
+  mr?: number;
+  mt?: number;
+  mx?: number;
+  my?: number;
+  p?: number;
+  pb?: number;
+  pl?: number;
+  pr?: number;
+  pt?: number;
+  px?: number;
+  py?: number;
+};
+export type SerializedType = SerializedStyles;
 
 /**
  * 세로와 가로 간격의 스타일을 반환하는 함수
@@ -33,7 +38,21 @@ export const getPaddingStyle = (
     ${spacing.px(horizontal)};
   `;
 };
-
+/**
+ * spacingStyles 객체 속성에 맞는 스타일을 반환하는 함수
+ * @param spacingStyles SpacingPropType 타입 객체
+ * @returns {SerializedType}
+ */
+export const getSpacingStyles = (
+  spacingStyles: SpacingPropType,
+): SerializedType => {
+  const styles = Object.entries(spacingStyles) // spacingStyles 객체 속성들을 [key, value]로 나눈다.
+    .filter(([prop]) => prop in spacing) // spacing 모듈에 해당 속성이 있는지 확인한다.
+    .map(([prop, value]) => spacing[prop as keyof Spacing](value)); // spacing 함수를 사용해 스타일을 반환한다.
+  return css`
+    ${styles}
+  `;
+};
 export const spacing: Spacing = {
   mt: (value) => css`
     margin-top: ${value * STANDARD}px;
