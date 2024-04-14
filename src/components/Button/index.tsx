@@ -1,6 +1,15 @@
 import React, { ButtonHTMLAttributes, forwardRef, ForwardedRef } from 'react';
 import styled from '@emotion/styled';
-import { getPaddingStyle, SpacingStyles } from '../../foundation/spacing';
+import { SIZE_SET } from '../../foundation/styles/size';
+import {
+  BorderKeyType,
+  BORDER_RADIUS_SET,
+} from '../../foundation/styles/border';
+import {
+  getPaddingStyle,
+  SerializedType,
+  SpacingPropType,
+} from '../../foundation/spacing';
 import {
   blue500,
   blue600,
@@ -17,26 +26,40 @@ import {
   gray300,
   white,
 } from '../../foundation/color';
-import {
-  ComponentBorderKey,
-  BORDER_RADIUS_SET,
-} from '../../foundation/styles/border';
-type ButtonState = {
+
+type ButtonSizeKeyType = 'xs' | 'sm' | 'md' | 'lg';
+type ButtonSizeSetType = Record<ButtonSizeKeyType, SerializedType>;
+
+export interface ButtonProps
+  extends ButtonHTMLAttributes<HTMLButtonElement>,
+    SpacingPropType {
+  variant?: ButtonColorKeyType;
+  fullWidth?: boolean;
+  radius?: BorderKeyType;
+  textButton?: boolean;
+  outline?: boolean;
+  size?: ButtonSizeKeyType;
+  icon?: React.ReactElement;
+  leftIcon?: React.ReactElement;
+  rightIcon?: React.ReactElement;
+}
+
+type ButtonStateType = {
   default: string;
   hover: string;
   active: string;
   disabled: string;
 };
 
-type ButtonColorSet = {
-  background: ButtonState;
-  border: ButtonState;
-  text: ButtonState;
+type ButtonColorType = {
+  background: ButtonStateType;
+  border: ButtonStateType;
+  text: ButtonStateType;
 };
-type ButtonVariant = keyof typeof COLOR_SET;
+type ButtonColorKeyType = keyof typeof BUTTON_COLOR_SET;
 
 // variant에 따라 버튼의 색상이 달라져야 하기 때문에 지정
-const COLOR_SET: Record<string, ButtonColorSet> = {
+const BUTTON_COLOR_SET: Record<string, ButtonColorType> = {
   primary: {
     background: {
       default: orange500,
@@ -79,38 +102,15 @@ const COLOR_SET: Record<string, ButtonColorSet> = {
   },
 };
 
-export type ComponentSizeKey = 'xs' | 'sm' | 'md' | 'lg';
-export type ComponentSizeSet = Record<ComponentSizeKey, SpacingStyles>;
 /**
- *  사이즈 : 패딩 값에 의해 버튼 사이즈가 xs,sm,md,lg로 나뉜다.
+ * 버튼 사이즈 : 패딩 값에 의해 버튼 사이즈가 xs,sm,md,lg로 나뉜다.
  */
-const PADDING_SET: ComponentSizeSet = {
+const BUTTON_SIZE_SET: ButtonSizeSetType = {
   xs: getPaddingStyle(2, 4),
   sm: getPaddingStyle(4, 4),
   md: getPaddingStyle(4, 12),
   lg: getPaddingStyle(6, 18),
 } as const;
-/**
- * 폰트 사이즈 : 버튼 사이즈에 따라 다르게 설정
- */
-const FONT_SIZE_SET: Record<keyof ComponentSizeSet, string> = {
-  xs: '0.75rem',
-  sm: '0.875rem',
-  md: '1rem',
-  lg: '2rem',
-} as const;
-
-export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: ButtonVariant;
-  fullWidth?: boolean;
-  radius?: ComponentBorderKey;
-  leftIcon?: React.ReactElement;
-  rightIcon?: React.ReactElement;
-  icon?: React.ReactElement;
-  textButton?: boolean;
-  outline?: boolean;
-  size?: ComponentSizeKey;
-}
 
 export const Button = (
   {
@@ -128,7 +128,7 @@ export const Button = (
   }: ButtonProps,
   ref: ForwardedRef<HTMLButtonElement>,
 ) => {
-  const colorSet = COLOR_SET[variant];
+  const colorSet = BUTTON_COLOR_SET[variant];
 
   return (
     <BaseButton
@@ -153,11 +153,11 @@ export const Button = (
 };
 
 const BaseButton = styled.button<{
-  colorSet: ButtonColorSet;
+  colorSet: ButtonColorType;
   outline: boolean;
   fullWidth: boolean;
-  radius: ComponentBorderKey;
-  size: ComponentSizeKey;
+  radius: BorderKeyType;
+  size: ButtonSizeKeyType;
 }>`
   display: flex;
   justify-content: center;
@@ -166,9 +166,9 @@ const BaseButton = styled.button<{
     outline ? `1px solid ${colorSet.border.default}` : 'none'};
   background-color: ${({ colorSet }) => colorSet.background.default};
   color: ${({ colorSet }) => colorSet.text.default};
-  ${({ size }) => PADDING_SET[size]};
+  ${({ size }) => BUTTON_SIZE_SET[size]};
   border-radius: ${({ radius }) => BORDER_RADIUS_SET[radius]};
-  font-size: ${({ size }) => FONT_SIZE_SET[size]};
+  font-size: ${({ size }) => SIZE_SET[size]};
   width: ${({ fullWidth }) => (fullWidth ? '100%' : 'auto')};
   cursor: pointer;
   transition: all 0.3s ease;
