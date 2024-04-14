@@ -66,14 +66,13 @@ export const palette = {
   discovery: discovery,
   action: action,
 } as const;
-
-export type ColorSet = {
+export type ColorSetType = {
   error: string;
   success: string;
   warning: string;
 };
 
-export const COLOR_SET: ColorSet = {
+export const COLOR_SET: ColorSetType = {
   error: dangerDark,
   success: successDark,
   warning: warningDark,
