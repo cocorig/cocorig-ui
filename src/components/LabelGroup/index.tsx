@@ -5,10 +5,9 @@ export interface LabelGroupProps {
   children?: React.ReactNode;
 }
 
-const LabelGroup: React.FC<LabelGroupProps> = ({ children }) => (
+const LabelGroup = ({ children }: LabelGroupProps) => (
   <Wrapper>{children}</Wrapper>
 );
-
 const Wrapper = styled.div`
   display: flex;
   justify-content: space-between;

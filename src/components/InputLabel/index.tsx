@@ -6,11 +6,11 @@ interface InputLabelProps extends InputProps {
   isHorizontal?: boolean; // 라벨과 인풋 정렬 상태
 }
 
-const InputLabel: React.FC<InputLabelProps> = ({
+const InputLabel = ({
   children,
   isHorizontal,
   ...inputProps
-}) => {
+}: InputLabelProps) => {
   return (
     <>
       <Label isHorizontal={isHorizontal}>
