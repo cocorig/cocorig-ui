@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { spacing } from '../../foundation/spacing';
-export interface LabelGroupProps {
+export interface LabelGroupProps extends React.HTMLAttributes<HTMLDivElement> {
   children?: React.ReactNode;
 }
 
