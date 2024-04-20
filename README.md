@@ -237,3 +237,106 @@ export default forwardRef(Input);
 ```
 
 </details>
+
+<details><summary>
+8 일차
+</summary>
+
+### Breadcrumb 컴포넌트
+
+`Breadcrumb`은 유저에게 웹사이트 내에서 현재 위치를 시각적으로 알려주는 네비게이션 요소이다.
+각 경로 name과 url을 담은 breadcrumbItems배열을 기반으로 해당 페이지는 어떤 카테고리에 속해있는지를 알려주는 역할을 한다.
+`Components > Breadcrumb` 이런식으로 `>`로 구분되어 표시되게 구현하였다.
+
+아래와 같이 Breadcrumb 컴포넌트를 사용할 수 있다.
+
+```tsx
+//next.js 사용예시
+'use client';
+
+import React from 'react';
+import { usePathname } from 'next/navigation';
+
+const paths = usePathname();
+// 경로 name과 url을 담은 breadcrumbItems배열로 current pathname을 받아서 사용할 수도 있다.
+const breadcrumbItems = [
+  { name: 'Home', url: '/' },
+  { name: 'Ui', url: `${paths}` },
+];
+//..
+<Breadcrumb
+  paths={breadcrumbItems}
+  containerClasses="breadcrumb-container"
+  listClasses="breadcrumb-item"
+  activeClasses="active"
+/>;
+```
+
+<br>
+
+지금 Breadcrumb 컴포넌트의 스타일은 고정적이기 때문에 사이즈나 구분자를 선택할 수 있게 리팩토링 해야 할 것 같다.
+
+</details>
+
+<details><summary>
+9 일차
+</summary>
+
+### Tooltip 컴포넌트
+
+Tooltip 컴포넌트는 텍스트, 아이콘, 버튼 등 텍스트 없이 그래픽 형태로만 이루어진 아이콘이나 서비스에 따라 특별히 사용되는 버튼명 등등 ui 요소의 기능을 보조 설명하기 위해 필요한 컴포넌트이다.
+
+아래와 같이 Tooltip 컴포넌트를 사용할 수 있다.
+
+```tsx
+// 사용예시
+<Tooltip message="메뉴" direction="left" variant="info">
+  <Menu />
+</Tooltip>
+```
+
+Tooltip 안에 들어갈 message, Tooltip을 나타낼 방향, Tooltip 배경색을 나타내줄 variant 속성을 전달해 줘야 한다.
+<br>
+
+```tsx
+// Tooltip 컴포넌트
+const Tooltip = (
+  { children, message, variant, direction }: TooltipProps,
+  ref: ForwardedRef<HTMLDivElement>,
+) => {
+  return (
+    <Wrapper ref={ref}>
+      {children}
+      <TooltipContainer
+        variant={variant}
+        className={`tooltip ${direction}`}
+        direction={direction}
+      >
+        {message}
+      </TooltipContainer>
+    </Wrapper>
+  );
+};
+```
+
+Menu 컴포넌트(children)를 중심으로 TooltipContainer는 direction 속성에 따라 Tooltip의 방향을 결정된다.
+
+마우스 호버 인터랙션에 의해 나타나는데 마우스 장치가 없을 환경을 고려해서 키보드 장치로도 작동될 수 있도록 추가해야겠다.
+
+</details>
+
+<details><summary>
+10 일차
+</summary>
+
+### Menu 컴포넌트
+
+</details>
+
+<details><summary>
+11 일차
+</summary>
+
+### Navbar 컴포넌트
+
+</details>
