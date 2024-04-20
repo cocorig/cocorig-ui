@@ -66,14 +66,15 @@ export const palette = {
   discovery: discovery,
   action: action,
 } as const;
-export type ColorSetType = {
-  error: string;
-  success: string;
-  warning: string;
-};
+export type ColorSetType = Record<
+  'error' | 'success' | 'warning' | 'primary' | 'info',
+  string
+>;
 
 export const COLOR_SET: ColorSetType = {
   error: dangerDark,
   success: successDark,
   warning: warningDark,
+  primary: primary,
+  info: infoDark,
 };
