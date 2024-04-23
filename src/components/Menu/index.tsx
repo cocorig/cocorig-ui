@@ -1,9 +1,16 @@
-import React, { forwardRef, ForwardedRef, HTMLAttributes } from 'react';
+import React, {
+  forwardRef,
+  ForwardedRef,
+  HTMLAttributes,
+  LiHTMLAttributes,
+  DetailsHTMLAttributes,
+} from 'react';
 import styled from '@emotion/styled';
 
-interface MenuItemProps extends HTMLAttributes<HTMLLIElement> {
+interface MenuItemProps extends LiHTMLAttributes<HTMLLIElement> {
   href: string;
 }
+
 interface SummaryProps extends HTMLAttributes<HTMLElement> {
   isOpen: boolean;
 }
@@ -26,7 +33,7 @@ Menu.displayName = 'Menu';
 // MenuItem 뭉텅이 - li
 const MenuList = forwardRef(
   (
-    { children, ...props }: HTMLAttributes<HTMLLIElement>,
+    { children, ...props }: LiHTMLAttributes<HTMLLIElement>,
     ref: ForwardedRef<HTMLLIElement>,
   ) => {
     return (
@@ -41,7 +48,7 @@ MenuList.displayName = 'MenuList';
 const MenuDetails = ({
   children,
   ...props
-}: HTMLAttributes<HTMLDetailsElement>) => {
+}: DetailsHTMLAttributes<HTMLDetailsElement>) => {
   return <details {...props}>{children}</details>;
 };
 
