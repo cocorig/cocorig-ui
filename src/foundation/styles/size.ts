@@ -1,3 +1,4 @@
+import { SerializedType } from '../spacing';
 export const SIZE_SET = {
   xxxl: '1.5rem',
   xxl: '1.375rem',
@@ -9,5 +10,6 @@ export const SIZE_SET = {
   xxs: '0.6875rem',
 } as const;
 
+export type SizeType = 'xs' | 'sm' | 'md' | 'lg';
 export type SizeKeyType = keyof typeof SIZE_SET;
-export type SizeSetType = typeof SIZE_SET;
+export type SizeStylesType = Record<SizeType, SerializedType>;
