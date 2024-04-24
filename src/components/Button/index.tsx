@@ -1,15 +1,16 @@
 import React, { ButtonHTMLAttributes, forwardRef, ForwardedRef } from 'react';
 import styled from '@emotion/styled';
-import { SIZE_SET } from '../../foundation/styles/size';
+import {
+  SIZE_SET,
+  SizeType,
+  SizeStylesType,
+} from '../../foundation/styles/size';
 import {
   BorderKeyType,
   BORDER_RADIUS_SET,
 } from '../../foundation/styles/border';
-import {
-  getPaddingStyle,
-  SerializedType,
-  SpacingPropType,
-} from '../../foundation/spacing';
+import { getPaddingStyle, SpacingPropType } from '../../foundation/spacing';
+import { ColorType, ColorKeyType } from '../type';
 import {
   blue500,
   blue600,
@@ -27,39 +28,22 @@ import {
   white,
 } from '../../foundation/color';
 
-type ButtonSizeKeyType = 'xs' | 'sm' | 'md' | 'lg';
-type ButtonSizeSetType = Record<ButtonSizeKeyType, SerializedType>;
-
 export interface ButtonProps
   extends ButtonHTMLAttributes<HTMLButtonElement>,
     SpacingPropType {
-  variant?: ButtonColorKeyType;
+  variant?: keyof typeof BUTTON_COLOR_SET;
   fullWidth?: boolean;
   radius?: BorderKeyType;
   textButton?: boolean;
   outline?: boolean;
-  size?: ButtonSizeKeyType;
+  size?: SizeType;
   icon?: React.ReactElement;
   leftIcon?: React.ReactElement;
   rightIcon?: React.ReactElement;
 }
 
-type ButtonStateType = {
-  default: string;
-  hover: string;
-  active: string;
-  disabled: string;
-};
-
-type ButtonColorType = {
-  background: ButtonStateType;
-  border: ButtonStateType;
-  text: ButtonStateType;
-};
-type ButtonColorKeyType = keyof typeof BUTTON_COLOR_SET;
-
 // variant에 따라 버튼의 색상이 달라져야 하기 때문에 지정
-const BUTTON_COLOR_SET: Record<string, ButtonColorType> = {
+const BUTTON_COLOR_SET: ColorKeyType = {
   primary: {
     background: {
       default: orange500,
@@ -100,19 +84,19 @@ const BUTTON_COLOR_SET: Record<string, ButtonColorType> = {
       disabled: white,
     },
   },
-};
+} as const;
 
 /**
  * 버튼 사이즈 : 패딩 값에 의해 버튼 사이즈가 xs,sm,md,lg로 나뉜다.
  */
-const BUTTON_SIZE_SET: ButtonSizeSetType = {
+const BUTTON_SIZE_SET: SizeStylesType = {
   xs: getPaddingStyle(2, 4),
   sm: getPaddingStyle(4, 4),
   md: getPaddingStyle(4, 12),
   lg: getPaddingStyle(6, 18),
 } as const;
 
-export const Button = (
+const Button = (
   {
     children,
     variant = 'primary',
@@ -153,17 +137,17 @@ export const Button = (
 };
 
 const BaseButton = styled.button<{
-  colorSet: ButtonColorType;
+  colorSet: ColorType;
   outline: boolean;
   fullWidth: boolean;
   radius: BorderKeyType;
-  size: ButtonSizeKeyType;
+  size: SizeType;
 }>`
   display: flex;
   justify-content: center;
   align-items: center;
   border: ${({ outline, colorSet }) =>
-    outline ? `1px solid ${colorSet.border.default}` : 'none'};
+    outline ? `1px solid ${colorSet.border?.default}` : 'none'};
   background-color: ${({ colorSet }) => colorSet.background.default};
   color: ${({ colorSet }) => colorSet.text.default};
   ${({ size }) => BUTTON_SIZE_SET[size]};
@@ -185,14 +169,14 @@ const BaseButton = styled.button<{
 
   &:disabled {
     background-color: ${({ colorSet }) => colorSet.background.disabled};
-    border-color: ${({ colorSet }) => colorSet.border.disabled};
+    border-color: ${({ colorSet }) => colorSet.border?.disabled};
     color: ${({ colorSet }) => colorSet.text.disabled};
     cursor: not-allowed;
   }
 
   /* 키보드로 버튼에 포커스 시 */
   &:focus-visible {
-    outline: 1px solid ${({ colorSet }) => colorSet.border.active};
+    outline: 1px solid ${({ colorSet }) => colorSet.border?.active};
   }
 `;
 
