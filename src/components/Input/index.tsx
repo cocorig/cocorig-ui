@@ -13,6 +13,7 @@ import {
   neutralDark,
   neutral,
 } from '../../foundation/styles/palette';
+import { black, gray300 } from '../../foundation';
 
 type InputVariantType = keyof ColorSetType;
 type InputSizeKeyType = Pick<typeof SIZE_SET, 'sm' | 'md' | 'lg'>;
@@ -20,6 +21,7 @@ type InputSizeKeyType = Pick<typeof SIZE_SET, 'sm' | 'md' | 'lg'>;
 export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   variant?: InputVariantType;
   helperText?: string;
+  fontColor?: string;
   inputSize?: keyof InputSizeKeyType;
   radius?: BorderKeyType;
   iconSize?: number;
@@ -28,6 +30,7 @@ export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 }
 interface InputStyleType {
   borderColor: string;
+  fontColor: string;
   radius: BorderKeyType;
   textSize: SizeKeyType;
   heightSize: string;
@@ -56,11 +59,11 @@ const INPUT_SIZE_SET: {
 
 const HEIGHT_SIZE_SET: { [key in keyof InputSizeKeyType]: string } = {
   sm: '2rem',
-  md: '3rem',
+  md: '3.3125rem',
   lg: '4rem',
 } as const;
 const getColorStyle = (variant?: InputVariantType): string => {
-  return variant && COLOR_SET[variant] ? COLOR_SET[variant] : neutralDark;
+  return variant && COLOR_SET[variant] ? COLOR_SET[variant] : gray300;
 };
 
 const Input = (
@@ -72,6 +75,7 @@ const Input = (
     helperText,
     inputSize = 'md',
     radius = 'default',
+    fontColor = 'black',
     iconSize,
     ...props
   }: InputProps,
@@ -109,6 +113,7 @@ const Input = (
           type={type}
           ref={ref}
           borderColor={borderColor}
+          fontColor={fontColor}
           radius={radius}
           textSize={inputSize}
           heightSize={HEIGHT_SIZE_SET[inputSize]}
@@ -144,10 +149,12 @@ const Wrapper = styled.div`
 
 const BaseInput = styled.input<InputStyleType>`
   width: 100%;
-  height: ${({ heightSize }) => heightSize};
-  color: black;
+  background-color: transparent;
   box-sizing: border-box;
-  border: 1px solid ${({ borderColor }) => borderColor || neutralDark};
+  outline: none;
+  height: ${({ heightSize }) => heightSize};
+  color: ${({ fontColor }) => fontColor || black};
+  border: 1px solid ${({ borderColor }) => borderColor};
   border-radius: ${({ radius }) =>
     BORDER_RADIUS_SET[radius] || BORDER_RADIUS_SET['default']};
   font-size: ${({ textSize }) => SIZE_SET[textSize]};
@@ -155,7 +162,11 @@ const BaseInput = styled.input<InputStyleType>`
   ${({ paddingRight }) => paddingRight};
 
   ::placeholder {
-    color: ${neutralDark};
+    color: ${({ fontColor }) => fontColor || neutralDark};
+  }
+  &:focus-visible {
+    outline-offset: 2px;
+    outline: 2px solid ${({ borderColor }) => borderColor};
   }
   &:disabled {
     cursor: not-allowed;

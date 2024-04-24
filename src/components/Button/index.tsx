@@ -143,19 +143,24 @@ const BaseButton = styled.button<{
   radius: BorderKeyType;
   size: SizeType;
 }>`
+  box-sizing: border-box;
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
+  text-decoration-line: none;
+  transition-duration: 0.2s;
+  transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  transition-property: color, background-color, border-color;
+  outline: none;
   border: ${({ outline, colorSet }) =>
     outline ? `1px solid ${colorSet.border?.default}` : 'none'};
+  border-radius: ${({ radius }) => BORDER_RADIUS_SET[radius]};
   background-color: ${({ colorSet }) => colorSet.background.default};
   color: ${({ colorSet }) => colorSet.text.default};
   ${({ size }) => BUTTON_SIZE_SET[size]};
-  border-radius: ${({ radius }) => BORDER_RADIUS_SET[radius]};
   font-size: ${({ size }) => SIZE_SET[size]};
   width: ${({ fullWidth }) => (fullWidth ? '100%' : 'auto')};
-  cursor: pointer;
-  transition: all 0.3s ease;
 
   &:hover {
     background-color: ${({ colorSet }) => colorSet.background.hover};
@@ -176,7 +181,8 @@ const BaseButton = styled.button<{
 
   /* 키보드로 버튼에 포커스 시 */
   &:focus-visible {
-    outline: 1px solid ${({ colorSet }) => colorSet.border?.active};
+    outline-offset: 2px;
+    outline: 2px solid ${({ colorSet }) => colorSet.border?.active};
   }
 `;
 
