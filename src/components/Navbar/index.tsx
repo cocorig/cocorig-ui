@@ -1,13 +1,46 @@
-import { Wrapper } from "./styles";
-import { NavbarProps } from "./type";
+import React, { forwardRef, ForwardedRef } from 'react';
+import { NavbarContentProps, NavbarProps, NavbarItemProps } from './type';
+import { NavbarStyles, ContentStyles, ItemStyles } from './styles';
 
-//  전체 nav
-const Navbar = ({ children, className, ...props }: NavbarProps) => {
-  return (
-    <Wrapper className={className} {...props}>
-      {children}
-    </Wrapper>
-  );
+const Navbar = forwardRef(
+  (
+    {
+      children,
+      height = '4rem',
+      position = 'sticky',
+      maxWidth = 'lg',
+      bgColor = 'white',
+      color = 'black',
+      borderColor,
+      isBlurred = false,
+      ...props
+    }: NavbarProps,
+    ref: ForwardedRef<HTMLUListElement>,
+  ) => {
+    return (
+      <NavbarStyles
+        height={height}
+        position={position}
+        maxWidth={maxWidth}
+        borderColor={borderColor}
+        isBlurred={isBlurred}
+        bgColor={bgColor}
+        color={color}
+        {...props}
+      >
+        {children}
+      </NavbarStyles>
+    );
+  },
+);
+Navbar.displayName = 'Navbar';
+
+const NavbarContent = ({ children, justify = 'start' }: NavbarContentProps) => {
+  return <ContentStyles justify={justify}>{children}</ContentStyles>;
 };
 
-export default Navbar;
+const NavbarItem = ({ children }: NavbarItemProps) => {
+  return <ItemStyles>{children}</ItemStyles>;
+};
+
+export { Navbar, NavbarContent, NavbarItem };
