@@ -1,15 +1,27 @@
 import { ReactNode, HTMLAttributes } from 'react';
 
-interface NavbarProps extends HTMLAttributes<HTMLElement>, NavbarStyles {
-  children: ReactNode;
-}
-
-type NavbarStyles = {
+export interface NavbarProps extends HTMLAttributes<HTMLElement> {
+  children: ReactNode[];
+  height?: string | number;
   position: 'static' | 'sticky';
-  Height?: number; // rem
+  maxWidth: maxWidthKeyType;
+  borderColor?: string;
+  isBlurred?: boolean;
   bgColor?: string;
   color?: string;
-  isBlurred?: boolean;
-};
+}
 
-export type { NavbarProps, NavbarStyles };
+export interface NavbarContentProps extends HTMLAttributes<HTMLDivElement> {
+  justify?: 'start' | 'center' | 'end';
+}
+export interface NavbarItemProps extends HTMLAttributes<HTMLDivElement> {}
+export const MAXWIDTH_SET = {
+  full: '100%',
+  xxl: '1536px',
+  xl: '1280px',
+  lg: '1024px',
+  md: '768px',
+  sm: '640px',
+} as const;
+
+export type maxWidthKeyType = keyof typeof MAXWIDTH_SET;
