@@ -1,22 +1,49 @@
 {
+  "root": true,
   "plugins": ["import", "@typescript-eslint"],
   "extends": [
     "eslint:recommended",
     "plugin:react-hooks/recommended",
     "plugin:@typescript-eslint/recommended",
-    "plugin:import/recommended",
     "plugin:storybook/recommended",
+    "plugin:import/warnings",
     "prettier"
   ],
+  "ignorePatterns": ["rollup.config.js"],
   "rules": {
-    "react/no-unescaped-entities": "off",
-    "@typescript-eslint/no-empty-interface": "off"
+    "@typescript-eslint/no-empty-object-type": "off",
+    "import/order": [
+      "error",
+      {
+        "groups": ["builtin", "external", "internal", "parent", "sibling", "index", "object", "type"],
+
+        "pathGroups": [
+          {
+            "pattern": "react",
+            "group": "external",
+            "position": "before"
+          },
+          {
+            "pattern": "@emotion*",
+            "group": "external",
+            "position": "after"
+          }
+        ],
+        "pathGroupsExcludedImportTypes": [],
+        "alphabetize": {
+          "order": "asc",
+          "caseInsensitive": true
+        },
+        "newlines-between": "always"
+      }
+    ]
   },
   "settings": {
     "import/parsers": {
       "@typescript-eslint/parser": [".ts", ".tsx"]
     },
     "import/resolver": {
+      "typescript": true,
       "node": {
         "extensions": [".js", ".jsx", ".ts", ".tsx"]
       }
@@ -25,43 +52,22 @@
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaVersion": 2021,
-    "compilerOptions": {
-      "allowJs": true,
-      "alwaysStrict": true,
-      "esModuleInterop": true,
-      "forceConsistentCasingInFileNames": true,
-      "isolatedModules": true,
-      "jsx": "preserve",
-      "lib": ["dom", "es2017"],
-      "module": "esnext",
-      "moduleResolution": "node",
-      "noEmit": true,
-      "noFallthroughCasesInSwitch": true,
-      "noUnusedLocals": true,
-      "noUnusedParameters": true,
-      "resolveJsonModule": true,
-      "skipLibCheck": true,
-      "strict": true,
-      "target": "esnext"
-    },
+    "project": ["tsconfig.json"],
     "exclude": ["node_modules"],
     "include": ["**/*.ts", "**/*.tsx"]
   },
   "env": {
-    "es6": true
+    "es6": true,
+    "browser": true,
+    "node": true
   },
-  "ignorePatterns": [
-    ".storybook",
-    "*.d.ts",
-    "node_modules",
-    "build",
-    "dist",
-    "**/env/*.js"
-  ],
   "overrides": [
     {
-      "files": ["*.ts", "*.tsx"],
-      "rules": { "no-undef": "off" }
+      "files": ["**/*.stories.@(ts|tsx|js|jsx|mjs|cjs)"],
+      "rules": {
+        "storybook/hierarchy-separator": "error",
+        "storybook/default-exports": "off"
+      }
     }
   ]
 }
