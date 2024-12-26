@@ -1,5 +1,23 @@
-dist
-node_modules
-.rollup.cache
+
+/dist
+
+# dependencies
+/node_modules
+
+# storybook
 *storybook.log
+
+# misc
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+#rollup
+.rollup.cache
+
+
+# eslint
 .eslintcache
+
