@@ -1,83 +1,137 @@
-import React, { useRef, useEffect, useMemo } from 'react';
-import { TabListProps, TabListStyles } from './type';
-import { Tab, TabListContainer, DEFAULT_STYLES_SET } from './styles';
+import { createContext, ReactNode, useCallback, useContext, useMemo, useState } from 'react';
 
-const TabList = ({
-  onChange,
-  options,
-  selectedValue,
-  fullWidth = false,
-  styles,
-  variant = 'rounded',
-}: TabListProps & {
-  styles?: TabListStyles;
-}) => {
-  const tabListRef = useRef<HTMLDivElement>(null);
-  const tabElements = useRef<HTMLButtonElement[]>([]);
+import { SerializedStyles } from '@emotion/react';
+import styled from '@emotion/styled';
 
-  // tabList의 자식 요소들을 모두 가져와서 tabElements(버튼배열)에 할당
-  useEffect(() => {
-    tabElements.current = Array.from(
-      tabListRef.current!.children,
-    ) as HTMLButtonElement[];
-  }, []);
+import { getSizesAndFontSize } from '../../css';
+import { SystemProps } from '../../styled-system';
+import { PropsMerger } from '../../utils';
+import { TableContainer } from '../Table/TableContainer';
 
-  /**
-   * Tab이 클릭되었을 때 tabElements 배열에서 찾고,새로 선택된 값이 이전에 선택된 값과 다를 경우에만 handleSelectTab가 실행된다.
-   * @param event 클릭한 이벤트 객체
-   */
-  const handleSelectTab = (event: React.MouseEvent<HTMLDivElement>) => {
-    const target = event.target as HTMLElement;
-    const targetTab = tabElements.current.find((tabElement) =>
-      tabElement.contains(target),
-    );
-    if (targetTab) {
-      const value = targetTab.dataset.value as string;
-      if (selectedValue !== value) {
-        onChange(event, value);
+import { IndicatorProps, indicatorStyle } from './Indicator';
+import { variantStyle } from './styles';
+import TabContent from './TabContent';
+import TabList from './TabList';
+import TabTrigger, { base } from './TabTrigger';
+
+type TabProps = {
+  children?: ReactNode;
+  defaultValue?: string;
+  controlledValue?: string | null;
+  onControlledChange?: (value: string) => void;
+  indicator?: boolean;
+} & SystemProps<'tab'>;
+
+type TabContextProps = {
+  value: string | null;
+  onValueChange: (value: string) => void;
+  indicator?: boolean;
+} & SystemProps<'tab'>;
+
+const TabContext = createContext<TabContextProps | null>(null);
+
+export const Tab = ({
+  size,
+  variant,
+  indicator,
+  colorScheme,
+  defaultValue,
+  controlledValue,
+  onControlledChange,
+  children,
+}: TabProps) => {
+  const [internalValue, setInternalValue] = useState<string | null>(defaultValue || null);
+  const value = controlledValue ?? internalValue;
+
+  const onValueChange = useCallback(
+    (newValue: string) => {
+      if (onControlledChange) {
+        onControlledChange(newValue);
+      } else {
+        setInternalValue(newValue);
       }
-    }
-  };
-
-  //  스타일이 매번 바뀌기 때문에 useMemo 적용
-  const customStyles: TabListStyles = useMemo(() => {
-    const defaultStyles = DEFAULT_STYLES_SET[variant];
-    const propStyles = styles; // prop으로 받은 스타일이 있으면 적용
-
-    return {
-      tabList: { ...defaultStyles.tabList, ...propStyles?.tabList },
-      tab: { ...defaultStyles.tab, ...propStyles?.tab },
-    };
-  }, [styles, variant]);
+    },
+    [onControlledChange],
+  );
 
   return (
-    <TabListContainer
-      role="tablist"
-      fullWidth={fullWidth}
-      ref={tabListRef}
-      styles={customStyles}
-      onClick={handleSelectTab}
-    >
-      {options.map(({ value, label, disabled, ...tabProps }, index) => {
-        const selected = value === selectedValue;
-        return (
-          <Tab
-            role="tab"
-            key={value}
-            tabIndex={selected ? 0 : -1}
-            aria-selected={selected}
-            data-value={value}
-            selected={selected}
-            aria-controls={`tabpanel-${index + 1}`}
-            styles={customStyles}
-            {...tabProps}
-          >
-            {label || value}
-          </Tab>
-        );
-      })}
-    </TabListContainer>
+    <TabContext.Provider value={{ size, value, variant, onValueChange, colorScheme, indicator }}>
+      <StyledTabs>{children}</StyledTabs>
+    </TabContext.Provider>
   );
 };
 
-export default TabList;
+export const useTabs = () => {
+  const context = useContext(TabContext);
+
+  if (!context) {
+    throw new Error('useTabContext must be used within a Tab');
+  }
+
+  const { indicator, value, onValueChange, variant, size = 'md', colorScheme } = context;
+
+  const { list, trigger, content } = useMemo(() => variantStyle(variant, colorScheme), [variant, colorScheme]);
+
+  const getListProps = useCallback<PropsMerger>(
+    (props = {}) => ({
+      css: list,
+      role: 'tablist',
+      ...props,
+    }),
+    [list],
+  );
+  const getTriggerProps = useCallback<PropsMerger>(
+    (props = {}) => ({
+      'aria-selected': value === props.value,
+      'data-value': props.value,
+      role: 'tab',
+      css: indicator ? [getSizesAndFontSize(size), base] : [getSizesAndFontSize(size), base, trigger],
+      ...props,
+    }),
+    [indicator, size, trigger, value],
+  );
+  const getContentProps = useCallback<PropsMerger>(
+    (props = {}) => ({
+      'data-state': value === props.value ? 'active' : 'inactive',
+      hidden: value !== props.value,
+      role: 'tabpanel',
+      tabIndex: 0,
+      css: [content, props.className as SerializedStyles],
+      ...props,
+    }),
+    [content, value],
+  );
+
+  const getIndicatorProps = useCallback(
+    ({ width, height, left }: IndicatorProps) => ({
+      'aria-selected': true,
+      'data-part': 'indicator',
+      css: [getSizesAndFontSize(size), base, indicatorStyle({ width, height, left }), trigger],
+    }),
+    [size, trigger],
+  );
+
+  return {
+    size,
+    value,
+    variant,
+    indicator,
+    onValueChange,
+    getListProps,
+    getTriggerProps,
+    getContentProps,
+    getIndicatorProps,
+  };
+};
+
+const StyledTabs = styled.div`
+  --tab-border: 1px;
+  --tab-radius: 0.5rem;
+  --list-radius: 0.3rem;
+  display: grid;
+`;
+
+Tab.List = TabList;
+Tab.Content = TabContent;
+Tab.Trigger = TabTrigger;
+Tab.Indicator = TableContainer;
