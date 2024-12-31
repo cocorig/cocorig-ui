@@ -1,16 +1,13 @@
-import {
-  BaseTypographyProps,
-  TypographyComponent,
-} from '../common/baseTypography';
+import { BaseTypography, TypographyComponentProps } from '../Base/baseTypography';
 
-interface HeadingProps extends BaseTypographyProps {
+export interface HeadingProps extends React.HTMLAttributes<HTMLHeadingElement>, TypographyComponentProps {
   tag?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
 }
 
-export const Heading: React.FC<HeadingProps> = ({
-  tag: Tag = 'h1',
-  size = 'xxl',
-  ...props
-}) => {
-  return <TypographyComponent tag={Tag} size={size} {...props} />;
+export const Heading = ({ tag = 'h1', size = '2xl', children, ...props }: HeadingProps) => {
+  return (
+    <BaseTypography as={tag} size={size} {...props}>
+      {children}
+    </BaseTypography>
+  );
 };
