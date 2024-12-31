@@ -1,209 +1,35 @@
-import React, { forwardRef, InputHTMLAttributes, ForwardedRef } from 'react';
-import styled from '@emotion/styled';
+import { forwardRef, InputHTMLAttributes, Ref } from 'react';
+
 import { css } from '@emotion/react';
-import { SerializedType, spacing } from '../../foundation/spacing';
-import { SizeKeyType, SIZE_SET } from '../../foundation/styles/size';
-import {
-  BorderKeyType,
-  BORDER_RADIUS_SET,
-} from '../../foundation/styles/border';
-import {
-  ColorSetType,
-  COLOR_SET,
-  neutralDark,
-  neutral,
-} from '../../foundation/styles/palette';
-import { black, gray300 } from '../../foundation';
+import styled from '@emotion/styled';
 
-type InputVariantType = keyof ColorSetType;
-type InputSizeKeyType = Pick<typeof SIZE_SET, 'sm' | 'md' | 'lg'>;
+import { getSizesAndFontSize, toSizeUnit } from '../../css';
+import { BOX_SIZE_SET, ColorStyleReturnType, MarginSpacing } from '../../foundation';
+import { SystemProps } from '../../styled-system';
 
-export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-  variant?: InputVariantType;
-  helperText?: string;
-  fontColor?: string;
-  inputSize?: keyof InputSizeKeyType;
-  radius?: BorderKeyType;
-  iconSize?: number;
-  leftIcon?: React.ReactElement;
-  rightIcon?: React.ReactElement;
-}
-interface InputStyleType {
-  borderColor: string;
-  fontColor: string;
-  radius: BorderKeyType;
-  textSize: SizeKeyType;
-  heightSize: string;
-  paddingLeft: string | SerializedType;
-  paddingRight: string | SerializedType;
-}
-const INPUT_SIZE_SET: {
-  [key in keyof InputSizeKeyType]: {
-    paddingLeft: string | SerializedType;
-    paddingRight: string | SerializedType;
-  };
-} = {
-  sm: {
-    paddingLeft: spacing.pl(3),
-    paddingRight: spacing.pr(3),
-  },
-  md: {
-    paddingLeft: spacing.pl(4),
-    paddingRight: spacing.pr(4),
-  },
-  lg: {
-    paddingLeft: spacing.pl(6),
-    paddingRight: spacing.pr(6),
-  },
-};
+import { BaseComponent } from './BaseComponent';
+import { SizeType } from './styles';
 
-const HEIGHT_SIZE_SET: { [key in keyof InputSizeKeyType]: string } = {
-  sm: '2rem',
-  md: '3.3125rem',
-  lg: '4rem',
-} as const;
-const getColorStyle = (variant?: InputVariantType): string => {
-  return variant && COLOR_SET[variant] ? COLOR_SET[variant] : gray300;
-};
+export type InputProps = InputHTMLAttributes<HTMLInputElement> & CommonInputProps;
 
-const Input = (
-  {
-    type = 'text',
-    leftIcon,
-    rightIcon,
-    variant,
-    helperText,
-    inputSize = 'md',
-    radius = 'default',
-    fontColor = 'black',
-    iconSize,
-    ...props
-  }: InputProps,
-  ref: ForwardedRef<HTMLInputElement>,
-) => {
-  const borderColor = getColorStyle(variant);
-  const helperTextColor = getColorStyle(variant);
-  const hasLeftIcon = !!leftIcon;
-  const hasRightIcon = !!rightIcon;
-  const sizeStyle = INPUT_SIZE_SET[inputSize];
-  let paddingLeft = sizeStyle.paddingLeft;
-  let paddingRight = sizeStyle.paddingRight;
+export type CommonInputProps = {
+  placeholderColor?: string;
+} & SystemProps<'input'> &
+  MarginSpacing;
 
-  if (hasLeftIcon) {
-    paddingLeft = css`
-      padding-left: calc(32px + ${iconSize ? `${iconSize}px` : '30px'});
+export type InputStyleProps = CommonInputProps & ColorStyleReturnType;
+
+export const Input = forwardRef(({ ...props }: InputProps, ref: Ref<HTMLInputElement>) => {
+  return <TextInput as="input" ref={ref} {...props} />;
+});
+
+const TextInput = styled(BaseComponent)<SizeType>`
+  ${({ inputSize = 'md' }) => {
+    const { height } = BOX_SIZE_SET[inputSize];
+
+    return css`
+      ${getSizesAndFontSize(inputSize)}
+      min-width: ${toSizeUnit(height)};
     `;
-  }
-
-  if (hasRightIcon) {
-    paddingRight = css`
-      padding-right: calc(32px + ${iconSize ? `${iconSize}px` : '30px'});
-    `;
-  }
-
-  return (
-    <Wrapper>
-      <div style={{ position: 'relative', display: 'flex', width: '100%' }}>
-        {leftIcon && (
-          <IconContainer className="leftIcon" iconSize={iconSize}>
-            {leftIcon}
-          </IconContainer>
-        )}
-        <BaseInput
-          type={type}
-          ref={ref}
-          borderColor={borderColor}
-          fontColor={fontColor}
-          radius={radius}
-          textSize={inputSize}
-          heightSize={HEIGHT_SIZE_SET[inputSize]}
-          paddingLeft={paddingLeft}
-          paddingRight={paddingRight}
-          {...props}
-        />
-        {rightIcon && (
-          <IconContainer className="rightIcon" iconSize={iconSize}>
-            {rightIcon}
-          </IconContainer>
-        )}
-      </div>
-      {helperText && (
-        <HelperText
-          color={helperTextColor}
-          textSize={inputSize}
-          heightSize={HEIGHT_SIZE_SET[inputSize]}
-        >
-          {helperText}
-        </HelperText>
-      )}
-    </Wrapper>
-  );
-};
-
-const Wrapper = styled.div`
-  position: relative;
-  display: flex;
-  align-items: center;
-  width: 100%;
+  }}
 `;
-
-const BaseInput = styled.input<InputStyleType>`
-  width: 100%;
-  background-color: transparent;
-  box-sizing: border-box;
-  outline: none;
-  height: ${({ heightSize }) => heightSize};
-  color: ${({ fontColor }) => fontColor || black};
-  border: 1px solid ${({ borderColor }) => borderColor};
-  border-radius: ${({ radius }) =>
-    BORDER_RADIUS_SET[radius] || BORDER_RADIUS_SET['default']};
-  font-size: ${({ textSize }) => SIZE_SET[textSize]};
-  ${({ paddingLeft }) => paddingLeft};
-  ${({ paddingRight }) => paddingRight};
-
-  ::placeholder {
-    color: ${({ fontColor }) => fontColor || neutralDark};
-  }
-  &:focus-visible {
-    outline-offset: 2px;
-    outline: 2px solid ${({ borderColor }) => borderColor};
-  }
-  &:disabled {
-    cursor: not-allowed;
-    color: ${neutralDark};
-    border-color: ${neutralDark};
-    background-color: ${neutral};
-  }
-`;
-
-const IconContainer = styled.div<{ iconSize?: number }>`
-  width: ${({ iconSize }) => (iconSize ? `${iconSize}px` : '30px')};
-  height: ${({ iconSize }) => (iconSize ? `${iconSize}px` : '30px')};
-  display: flex;
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  &.leftIcon {
-    left: 1rem;
-  }
-  &.rightIcon {
-    right: 1rem;
-  }
-  svg {
-    width: 100%;
-    height: 100%;
-  }
-`;
-const HelperText = styled.span<{
-  color: string;
-  textSize: SizeKeyType;
-  heightSize: string;
-}>`
-  position: absolute;
-  width: 100%;
-  bottom: -50%;
-  font-size: ${({ textSize }) => `calc(${SIZE_SET[textSize]} - 0.1rem)`};
-  color: ${({ color }) => color || neutralDark};
-`;
-
-export default forwardRef(Input);
