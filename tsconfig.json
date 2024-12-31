@@ -1,27 +1,23 @@
 {
   "compilerOptions": {
-    "target": "ESNext",
-    "module": "ESNext",
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
+    "target": "es2020",
+    "module": "esnext",
     "strict": true,
     "skipLibCheck": true,
-    "rootDir": ".",
-    "jsx": "react",
-    "declaration": true,
-    "declarationDir": "types",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "esModuleInterop": true,
+    "jsxImportSource": "@emotion/react",
+    "forceConsistentCasingInFileNames": true,
+    "types": ["react"],
+    "rootDir": "src",
+    "importHelpers": false,
     "sourceMap": true,
-    "outDir": "dist",
-    "noEmit": false,
-    "moduleResolution": "Node",
+    "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
-    "emitDeclarationOnly": true
+    "noFallthroughCasesInSwitch": true,
+    "moduleResolution": "node",
+    "jsx": "react-jsx"
   },
-  "include": ["src"],
-  "exclude": ["**/*.stories.tsx", "node_modules"]
+  "include": ["src", "**/*.ts"],
+  "exclude": ["**/*.stories.tsx", "node_modules", "dist"]
 }
-// npm i --save-dev  @rollup/plugin-node-resolve  @rollup/plugin-commonjs
-// @rollup/plugin-terser @rollup/plugin-typescript rollup rollup-plugin-dts
-// rollup-plugin-peer-deps-external
-
-// npx -p @storybook/cli sb init
