@@ -1,109 +1,108 @@
-import { css, SerializedStyles } from '@emotion/react';
+import { css } from '@emotion/react';
+import { SerializedStyles } from '@emotion/serialize';
 
-const STANDARD = 4;
+const marginOptions = ['m', 'mt', 'mb', 'ml', 'mr', 'my', 'mx'] as const;
+const paddingOptions = ['p', 'pt', 'pb', 'pl', 'pr', 'py', 'px'] as const;
 
-export interface Spacing {
-  [key: string]: (value: number) => SerializedStyles;
-}
-export type SpacingPropType = {
-  m?: number;
-  mb?: number;
-  ml?: number;
-  mr?: number;
-  mt?: number;
-  mx?: number;
-  my?: number;
-  p?: number;
-  pb?: number;
-  pl?: number;
-  pr?: number;
-  pt?: number;
-  px?: number;
-  py?: number;
+export type MarginSpacing = {
+  [key in (typeof marginOptions)[number]]?: number;
 };
-export type SerializedType = SerializedStyles;
+
+export type PaddingSpacing = {
+  [key in (typeof paddingOptions)[number]]?: number;
+};
+// 전체 spacing prop 타입
+export type SpacingProp = MarginSpacing & PaddingSpacing;
+
+const isNumber = (value: [string, number | undefined]): value is [string, number] => {
+  return typeof value[1] === 'number';
+};
+
+const hasSpacingProps = (props: MarginSpacing | PaddingSpacing, options: readonly string[]) =>
+  options.some((option) => option in props);
+
+/** spacing 옵션과 spacing 값을 받아서 객체를 생성
+ * @param props - marginOptions의 키와 margin spacing 값이 포함된 객체 ex) {m : 10}
+ * @returns  props으로 받은 marginOptions의 키와 spacing 값을 가진 객체
+ */
+export const marginProps = (props: MarginSpacing): MarginSpacing => {
+  if (!hasSpacingProps(props, marginOptions)) {
+    return {};
+  }
+  return marginOptions.reduce(
+    (marginMap, option) => ({
+      ...marginMap,
+      [option]: props[option],
+    }),
+    {},
+  );
+};
+
+export const paddingProps = (props: PaddingSpacing): PaddingSpacing => {
+  if (!hasSpacingProps(props, paddingOptions)) {
+    return {};
+  }
+  return paddingOptions.reduce(
+    (paddingMap, option) => ({
+      ...paddingMap,
+      [option]: props[option],
+    }),
+    {},
+  );
+};
 
 /**
- * 세로와 가로 간격의 스타일을 반환하는 함수
- * @param vertical 세로 간격 값
- * @param horizontal 가로 간격 값
- * @returns {SerializedStyles}
+ * margin spacing 객체를 기반으로 CSS 스타일을 생성해 반환하는 함수
+ * @param props marginProps객체 ex) {m : 10}
+ * @returns SerializedStyles CSS 스타일 객체
  */
-export const getPaddingStyle = (
-  vertical: number,
-  horizontal: number,
-): SerializedStyles => {
+export const marginStyle = (props: MarginSpacing): SerializedStyles => {
+  const { m, mt = m, mb = m, ml = m, mr = m, mx, my } = props;
+  if (!hasSpacingProps(props, marginOptions)) {
+    return css``;
+  }
+  const margins = Object.entries({
+    top: mt,
+    bottom: mb,
+    left: ml,
+    right: mr,
+    inline: mx,
+    block: my,
+  });
+
   return css`
-    ${spacing.py(vertical)};
-    ${spacing.px(horizontal)};
+    ${margins
+      .filter(isNumber)
+      .map(([position, value]) => `margin-${position}: ${value}rem;`)
+      .join('')}
   `;
 };
+
 /**
- * spacingStyles 객체 속성에 맞는 스타일을 반환하는 함수
- * @param spacingStyles SpacingPropType 타입 객체
- * @returns {SerializedType}
+ * padding spacing 객체를 기반으로 CSS 스타일을 생성해 반환하는 함수
+ * @param props paddingProps객체 ex) {p : 10}
+ * @returns SerializedStyles CSS 스타일 객체
  */
-export const getSpacingStyles = (
-  spacingStyles: SpacingPropType,
-): SerializedType => {
-  const styles = Object.entries(spacingStyles) // spacingStyles 객체 속성들을 [key, value]로 나눈다.
-    .filter(([prop]) => prop in spacing) // spacing 모듈에 해당 속성이 있는지 확인한다.
-    .map(([prop, value]) => spacing[prop as keyof Spacing](value)); // spacing 함수를 사용해 스타일을 반환한다.
+export const paddingStyle = (props: PaddingSpacing): SerializedStyles => {
+  const { p, pt = p, pb = p, pl = p, pr = p, px, py } = props;
+
+  if (!hasSpacingProps(props, paddingOptions)) {
+    return css``;
+  }
+
+  const paddings = Object.entries({
+    top: pt,
+    bottom: pb,
+    left: pl,
+    right: pr,
+    inline: px,
+    block: py,
+  });
+
   return css`
-    ${styles}
+    ${paddings
+      .filter(isNumber)
+      .map(([position, value]) => `padding-${position}: ${value}rem;`)
+      .join('')}
   `;
 };
-export const spacing: Spacing = {
-  mt: (value) => css`
-    margin-top: ${value * STANDARD}px;
-  `,
-  mb: (value) => css`
-    margin-bottom: ${value * STANDARD}px;
-  `,
-  ml: (value) => css`
-    margin-left: ${value * STANDARD}px;
-  `,
-  mr: (value) => css`
-    margin-right: ${value * STANDARD}px;
-  `,
-  mx: (value) => css`
-    margin-left: ${value * STANDARD}px;
-    margin-right: ${value * STANDARD}px;
-  `,
-  my: (value) => css`
-    margin-top: ${value * STANDARD}px;
-    margin-bottom: ${value * STANDARD}px;
-  `,
-  m: (value) => css`
-    margin-top: ${value * STANDARD}px;
-    margin-bottom: ${value * STANDARD}px;
-    margin-left: ${value * STANDARD}px;
-    margin-right: ${value * STANDARD}px;
-  `,
-  pt: (value) => css`
-    padding-top: ${value * STANDARD}px;
-  `,
-  pb: (value) => css`
-    padding-bottom: ${value * STANDARD}px;
-  `,
-  pl: (value) => css`
-    padding-left: ${value * STANDARD}px;
-  `,
-  pr: (value) => css`
-    padding-right: ${value * STANDARD}px;
-  `,
-  px: (value) => css`
-    padding-left: ${value * STANDARD}px;
-    padding-right: ${value * STANDARD}px;
-  `,
-  py: (value) => css`
-    padding-top: ${value * STANDARD}px;
-    padding-bottom: ${value * STANDARD}px;
-  `,
-  p: (value) => css`
-    padding-top: ${value * STANDARD}px;
-    padding-bottom: ${value * STANDARD}px;
-    padding-left: ${value * STANDARD}px;
-    padding-right: ${value * STANDARD}px;
-  `,
-} as const;

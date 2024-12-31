@@ -1,17 +1,21 @@
 import { black } from './black';
-import { white } from './white';
 import { blue } from './blue';
-import { green } from './green';
-import { red } from './red';
-import { orange } from './orange';
 import { gray } from './gray';
-import { yellow } from './yellow';
-import { pink } from './pink';
+import { green } from './green';
 import { indigo } from './indigo';
-import { teal } from './teal';
+import { orange } from './orange';
+import { pink } from './pink';
 import { purple } from './purple';
-// color 스토리북 docs
-export const colors = {
+import { red } from './red';
+import { teal } from './teal';
+import { transparent } from './transparent';
+import { white } from './white';
+import { yellow } from './yellow';
+
+// 객체의 키를 뽑아 유니온 타입으로 만들고 싶을 때
+export type ColorsToken = keyof typeof COLOR_SET;
+
+export const COLOR_SET = {
   black,
   white,
   blue,
@@ -24,8 +28,9 @@ export const colors = {
   indigo,
   teal,
   purple,
+  transparent,
 };
-export * from './black'; // 색상을 따로 뺄 수 있게
+export * from './black';
 export * from './white';
 export * from './blue';
 export * from './green';
@@ -37,3 +42,4 @@ export * from './pink';
 export * from './indigo';
 export * from './teal';
 export * from './purple';
+export * from './transparent';

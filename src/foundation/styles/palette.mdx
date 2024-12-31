@@ -1,0 +1,16 @@
+import { Meta, ColorPalette, ColorItem, Source } from '@storybook/blocks';
+import { COLOR_PALLETTE } from '.';
+
+<Meta title="Foundation/ColorPalette" />
+
+# Colors
+
+export function colorItemList(items) {
+  return Object.entries(items).map(([key, color]) => {
+    return <ColorItem title={key} subtitle="" colors={color} />;
+  });
+}
+
+## 색상
+
+<ColorPalette>{colorItemList(COLOR_PALLETTE)}</ColorPalette>
