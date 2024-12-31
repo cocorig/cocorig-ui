@@ -2,8 +2,9 @@ import React from 'react';
 
 import { css } from '@emotion/react';
 
-import { toSizeUnit } from './toSizeUnit';
+import { SpacingProp, marginStyle, paddingStyle } from '../foundation';
 
+import { toSizeUnit } from './toSizeUnit';
 export type FixedDirectionStackProps = {
   gap?: string | number;
   alignItems?: React.CSSProperties['alignItems'];
@@ -14,7 +15,7 @@ export type FixedDirectionStackProps = {
   fullSize?: boolean;
   flexGrow?: boolean;
   children?: React.ReactNode;
-};
+} & SpacingProp;
 
 export type StackProps = FixedDirectionStackProps & {
   direction: React.CSSProperties['flexDirection'];
@@ -40,6 +41,7 @@ export const stack = ({
   fullSize,
   direction,
   flexGrow,
+  ...props
 }: StackProps) => css`
   display: flex;
   flex-direction: ${direction};
@@ -76,6 +78,8 @@ export const stack = ({
   css`
     flex: 1;
   `}
+   ${marginStyle(props)};
+  ${paddingStyle(props)}
 `;
 
 export const vStack = (props: FixedDirectionStackProps = {}) => stack({ ...props, direction: 'column' });
