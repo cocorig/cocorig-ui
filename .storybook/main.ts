@@ -5,12 +5,6 @@ const config: StorybookConfig = {
 
   typescript: {
     reactDocgen: 'react-docgen-typescript',
-    reactDocgenTypescriptOptions: {
-      // union prop type을 select 컨트롤로 생성
-      shouldExtractLiteralValuesFromEnum: true,
-      // string,boolean type을 inputs 혹은 switches 컨트롤로 생성
-      shouldRemoveUndefinedFromOptional: true,
-    },
   },
   addons: [
     '@storybook/addon-docs',
