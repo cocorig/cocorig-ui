@@ -71,7 +71,7 @@ export const useAccordionItem = () => {
       onClick: toggle,
       onKeyDown: onKeyDown,
       css: header,
-      'aria-expanded': isExpanded,
+      'aria-expanded': isExpanded ? true : false,
       'aria-controls': `accordion-body-${headerId}`,
       ...props,
     }),
@@ -93,7 +93,7 @@ export const useAccordionItem = () => {
   const getIconProps = useCallback<PropsMerger>(
     (props = {}) => ({
       open: isExpanded,
-      'aria-expanded': isExpanded,
+      'aria-expanded': isExpanded ? true : false,
       ...props,
     }),
     [isExpanded],
