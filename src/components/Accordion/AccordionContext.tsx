@@ -35,11 +35,8 @@ export const useAccordion = () => {
   const getAccordionItemProps = useCallback<PropsMerger>(
     (props = {}) => ({
       id: props.id || `accordion-item-${props.itemValue}`,
-      'aria-labelledby': `accordion-header-${props.itemValue}`,
-      role: 'region',
-      'data-state': props.open ? 'open' : 'close',
       css: context.item,
-      ...props,
+      'data-state': props.isExpanded ? 'open' : 'closed',
     }),
     [context.item],
   );
@@ -75,6 +72,7 @@ export const useAccordionItem = () => {
       onKeyDown: onKeyDown,
       css: header,
       'aria-expanded': isExpanded,
+      'aria-controls': `accordion-body-${headerId}`,
       ...props,
     }),
     [headerId, isExpanded, onKeyDown, header, toggle],
@@ -84,6 +82,7 @@ export const useAccordionItem = () => {
     (props = {}) => ({
       id: props.id || bodyId,
       isExpanded: isExpanded,
+      role: 'region',
       css: body,
       'aria-hidden': !isExpanded,
       ...props,
