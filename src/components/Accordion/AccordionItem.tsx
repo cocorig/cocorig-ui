@@ -1,15 +1,13 @@
 /** @jsxImportSource @emotion/react */
 
-import { HTMLAttributes } from 'react';
-
-import styled from '@emotion/styled';
+import { LiHTMLAttributes } from 'react';
 
 import { AccordionItemContext, useAccordion } from './AccordionContext';
 
 type AccordionItemProps = {
   itemValue: number;
   children?: React.ReactNode | ((props: { isExpanded: boolean }) => React.ReactNode);
-} & HTMLAttributes<HTMLDivElement>;
+} & LiHTMLAttributes<HTMLLIElement>;
 
 export const AccordionItem = ({ itemValue, children, ...props }: AccordionItemProps) => {
   const { openItems, toggleItem, getAccordionItemProps } = useAccordion();
@@ -17,18 +15,14 @@ export const AccordionItem = ({ itemValue, children, ...props }: AccordionItemPr
   const toggle = () => toggleItem(itemValue);
   const getItemProps = getAccordionItemProps({
     itemValue,
-    ...props,
+    isExpanded,
   });
 
   return (
     <AccordionItemContext.Provider value={{ itemValue, isExpanded, toggle }}>
-      <StyledAccordionItem {...getItemProps} data-state={isExpanded ? 'open' : 'close'}>
+      <li {...getItemProps} {...props}>
         {typeof children === 'function' ? children({ isExpanded }) : children}
-      </StyledAccordionItem>
+      </li>
     </AccordionItemContext.Provider>
   );
 };
-
-const StyledAccordionItem = styled.div`
-  overflow-anchor: none;
-`;
