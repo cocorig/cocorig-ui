@@ -13,7 +13,7 @@ import { AccordionIcon } from './AccordionIcon';
 import { AccordionItem } from './AccordionItem';
 import { SIZE_SET, SizeConfig, variantStyle } from './styles';
 
-export interface AccordionProps extends HTMLAttributes<HTMLDivElement>, SystemProps<'accordion'>, MarginSpacing {}
+export interface AccordionProps extends HTMLAttributes<HTMLUListElement>, SystemProps<'accordion'>, MarginSpacing {}
 
 type AccordionStyle = SizeConfig & MarginSpacing;
 export const Accordion = ({
@@ -27,7 +27,7 @@ export const Accordion = ({
 }: AccordionProps) => {
   const [openItems, setOpenItems] = useState<number[]>(defaultId);
 
-  const itemRef = useRef<HTMLDivElement>(null);
+  const itemRef = useRef<HTMLUListElement>(null);
   const headerRefs = useRef<HTMLButtonElement[]>([]);
 
   useEffect(() => {
@@ -74,7 +74,7 @@ export const Accordion = ({
   );
 };
 
-const StyledAccordion = styled.div<AccordionStyle>`
+const StyledAccordion = styled.ul<AccordionStyle>`
   width: 100%;
   --text-size: ${({ text }) => toSizeUnit(text.fontSize)};
   --text-height: ${({ text }) => toSizeUnit(text.lineHeight)};
