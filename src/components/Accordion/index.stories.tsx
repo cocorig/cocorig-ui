@@ -6,6 +6,8 @@ import { colorPaletteOptions, Heading } from '../../foundation';
 import { getPropsType } from '../../storybook-props';
 import { VStack } from '../Stack';
 
+import { runTest, runTestWithArgs } from './storyTest';
+
 import { Accordion } from '.';
 
 const items = [
@@ -15,7 +17,7 @@ const items = [
   { title: '4일차', text: '해변에서 휴식 후 석양 감상' },
 ];
 
-const renderAccordionItems = (items) => {
+const renderAccordionItems = (items: { title: string; text: string }[]) => {
   return items.map((item, index) => (
     <Accordion.Item key={index} itemValue={index}>
       <Accordion.Header icon={<Accordion.Icon />}>{item.title}</Accordion.Header>
@@ -74,9 +76,9 @@ const meta = {
 } satisfies Meta<typeof Accordion>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+export type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {};
+export const Default: Story = runTest({});
 
 const sizes = ['sm', 'md', 'lg'] as const;
 
@@ -98,14 +100,9 @@ export const FilledVariant: Story = {
   },
 };
 
-export const AllowMultipleExpansion: Story = {
+export const MultipleOpenDefault: Story = runTestWithArgs({
   args: {
     allowMultiple: true,
-  },
-};
-
-export const InitialAccordionState: Story = {
-  args: {
     defaultId: [1],
   },
-};
+});
