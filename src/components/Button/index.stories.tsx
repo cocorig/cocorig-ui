@@ -1,11 +1,14 @@
 import React from 'react';
 
 import { Meta, StoryObj } from '@storybook/react';
+import { fn } from '@storybook/test';
 
 import { Body, colorPaletteOptions } from '../../foundation';
 import { getDefaultValue } from '../../storybook-props';
 import { commonArgTypes } from '../Badge/index.stories';
 import { HStack, VStack } from '../Stack';
+
+import { runTest } from './storyTest';
 
 import { Button } from '.';
 const meta = {
@@ -19,6 +22,7 @@ const meta = {
     variant: 'base',
     borderRadius: 'default',
     weight: 'bold',
+    onClick: fn(),
   },
   argTypes: {
     ...commonArgTypes,
@@ -31,9 +35,9 @@ const meta = {
 } satisfies Meta<typeof Button>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+export type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {};
+export const Default: Story = runTest({});
 
 const variantOptions = ['base', 'soft', 'subtle', 'outline', 'ghost'] as const;
 export const ButtonVariants: Story = {
@@ -84,4 +88,10 @@ export const AllButtonVariantsAndColors: Story = {
       ))}
     </VStack>
   ),
+};
+
+export const Disabled: Story = {
+  args: {
+    disabled: true,
+  },
 };
