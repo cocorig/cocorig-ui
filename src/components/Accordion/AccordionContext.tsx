@@ -72,10 +72,10 @@ export const useAccordionItem = () => {
       onKeyDown: onKeyDown,
       css: header,
       'aria-expanded': isExpanded ? true : false,
-      'aria-controls': `accordion-body-${headerId}`,
+      'aria-controls': bodyId,
       ...props,
     }),
-    [headerId, isExpanded, onKeyDown, header, toggle],
+    [headerId, toggle, onKeyDown, header, isExpanded, bodyId],
   );
 
   const getBodyProps = useCallback<PropsMerger>(
@@ -85,15 +85,15 @@ export const useAccordionItem = () => {
       role: 'region',
       css: body,
       'aria-hidden': !isExpanded,
+      'aria-labelledby': headerId,
       ...props,
     }),
-    [body, bodyId, isExpanded],
+    [body, bodyId, headerId, isExpanded],
   );
 
   const getIconProps = useCallback<PropsMerger>(
     (props = {}) => ({
       open: isExpanded,
-      'aria-expanded': isExpanded ? true : false,
       ...props,
     }),
     [isExpanded],
