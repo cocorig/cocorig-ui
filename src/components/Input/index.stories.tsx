@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Meta, StoryObj } from '@storybook/react';
 
 import { Body, COLOR_SET, colorPaletteOptions, statesOptions } from '../../foundation';
 import { getDefaultValue } from '../../storybook-props';
 import { HStack, VStack } from '../Stack';
+
+import { runTest } from './storyTest';
 
 import { Input } from '.';
 
@@ -13,7 +15,7 @@ const meta = {
   component: Input,
   parameters: {},
   args: {
-    placeholder: 'Placeholder..',
+    placeholder: '값을 입력해주세요',
     variant: 'outline',
     colorScheme: 'gray',
     placeholderColor: COLOR_SET.gray[600],
@@ -23,7 +25,21 @@ const meta = {
 } satisfies Meta<typeof Input>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+export type Story = StoryObj<typeof meta>;
+
+export const Template: Story = runTest({
+  render: (args) => {
+    const [value, setValue] = useState('');
+    return (
+      <Input
+        {...args}
+        value={value}
+        colorScheme={value.length > 10 ? 'error' : 'gray'}
+        onChange={(e) => setValue(e.target.value)}
+      />
+    );
+  },
+});
 
 export const Default: Story = {
   argTypes: {
