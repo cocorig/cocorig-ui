@@ -9,7 +9,6 @@ export const StyledFormControl = styled.div<FormControlStyle>`
   --label-size: ${({ labelSize }) => toSizeUnit(labelSize ?? 1)};
   --helperText-size: ${({ helperTextSize }) => toSizeUnit(helperTextSize ?? 0.875)};
   --helperText-color: ${({ statusColor, helperTextColor }) => helperTextColor ?? statusColor ?? COLOR_SET.gray[800]};
-
   display: flex;
   width: 100%;
   position: relative;
@@ -28,7 +27,9 @@ export const StyledFormControl = styled.div<FormControlStyle>`
 
 export const Label = styled.label`
   display: flex;
-  align-items: center;
+  width: 100%;
+  align-items: flex-start;
+  flex-direction: column;
   text-align: start;
   font-size: var(--label-size);
   font-weight: ${WEIGHT_SET.bold};

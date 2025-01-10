@@ -1,11 +1,14 @@
-import { forwardRef, HTMLAttributes, Ref } from 'react';
+import { cloneElement, forwardRef, HTMLAttributes, isValidElement, Ref, ReactElement } from 'react';
 
 import { COLOR_PALLETTE } from '../../foundation/';
 import { SystemProps } from '../../styled-system';
 
 import { HelperText, Indicator, Label, StyledFormControl } from './styles';
 
-interface FormControlProps extends HTMLAttributes<HTMLDivElement>, SystemProps<'formControl'>, FormControlCommonProps {}
+interface FormControlProps extends HTMLAttributes<HTMLDivElement>, SystemProps<'formControl'>, FormControlCommonProps {
+  label: string;
+  children?: ReactElement<{ required?: boolean }>;
+}
 
 export type FormControlCommonProps = {
   labelSize?: string | number;
@@ -20,16 +23,23 @@ export const FormControl = forwardRef(
   ({ children, required, status, label, helperText, ...props }: FormControlProps, ref: Ref<HTMLDivElement>) => {
     const statusColor = status ? COLOR_PALLETTE.status[status] : undefined;
 
+    const clonedChildren = isValidElement(children)
+      ? cloneElement(children, {
+          required: required || children.props.required,
+        })
+      : children;
+
     return (
-      <StyledFormControl ref={ref} {...props} statusColor={statusColor}>
-        {label && (
-          <Label>
+      <StyledFormControl ref={ref} statusColor={statusColor} {...props}>
+        <Label>
+          <div>
             {label}
             {required && <Indicator>*</Indicator>}
-          </Label>
-        )}
-        {children}
-        {helperText && <HelperText>{helperText}</HelperText>}
+          </div>
+          {clonedChildren}
+        </Label>
+
+        {helperText && <HelperText className="helperText">{helperText}</HelperText>}
       </StyledFormControl>
     );
   },
