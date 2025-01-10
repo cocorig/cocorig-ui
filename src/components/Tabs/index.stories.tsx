@@ -4,6 +4,8 @@ import { Meta, StoryObj } from '@storybook/react';
 
 import { VStack } from '../Stack';
 
+import { runTest } from './storyTest';
+
 import { Tab } from '.';
 
 const meta = {
@@ -33,7 +35,7 @@ const meta = {
 } satisfies Meta<typeof Tab>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+export type Story = StoryObj<typeof meta>;
 
 const TabList = () => (
   <Tab.List>
@@ -53,7 +55,7 @@ const TabContent = () => (
 
 const variants = ['lifted', 'boxed', 'underlined'] as const;
 
-export const Default: Story = {};
+export const Default: Story = runTest({});
 
 export const Variants: Story = {
   render: () => (
