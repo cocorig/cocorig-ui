@@ -1,14 +1,13 @@
 import { createContext, ReactNode, useCallback, useContext, useMemo, useState } from 'react';
 
-import { SerializedStyles } from '@emotion/react';
+import { css, SerializedStyles } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import { getSizesAndFontSize } from '../../css';
 import { SystemProps } from '../../styled-system';
 import { PropsMerger } from '../../utils';
-import { TableContainer } from '../Table/TableContainer';
 
-import { IndicatorProps, indicatorStyle } from './Indicator';
+import { Indicator, IndicatorProps, indicatorStyle } from './Indicator';
 import { variantStyle } from './styles';
 import TabContent from './TabContent';
 import TabList from './TabList';
@@ -96,7 +95,15 @@ export const useTabs = () => {
       hidden: value !== props.value,
       role: 'tabpanel',
       tabIndex: 0,
-      css: [content, props.className as SerializedStyles],
+      css: [
+        content,
+        props.className as SerializedStyles,
+        css`
+          &:focus-visible {
+            outline: 2px solid currentColor;
+          }
+        `,
+      ],
       ...props,
     }),
     [content, value],
@@ -106,7 +113,7 @@ export const useTabs = () => {
     ({ width, height, left }: IndicatorProps) => ({
       'aria-selected': true,
       'data-part': 'indicator',
-      css: [getSizesAndFontSize(size), base, indicatorStyle({ width, height, left }), trigger],
+      css: [getSizesAndFontSize(size), base, trigger, indicatorStyle({ width, height, left })],
     }),
     [size, trigger],
   );
@@ -134,4 +141,4 @@ const StyledTabs = styled.div`
 Tab.List = TabList;
 Tab.Content = TabContent;
 Tab.Trigger = TabTrigger;
-Tab.Indicator = TableContainer;
+Tab.Indicator = Indicator;

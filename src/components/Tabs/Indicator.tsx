@@ -16,7 +16,6 @@ export const Indicator = ({ width, height, left }: IndicatorProps) => {
     height,
     left,
   });
-  console.log(indicatorProps);
   return <div {...indicatorProps} />;
 };
 
@@ -26,15 +25,18 @@ export const indicatorStyle = ({ width, height, left }: IndicatorProps) => css`
   --width: ${width}px;
   --height: ${height}px;
   position: absolute;
-  will-change: var(--transition-property);
-  transition-property: var(--transition-property);
-  transition-duration: 0.2s;
-  transition-timing-function: var(--transition-timing-function);
-
+  box-sizing: border-box;
   left: var(--left);
   width: var(--width);
   height: var(--height);
+  will-change: var(--transition-property);
+  transition-property: var(--transition-property);
+  transition-duration: 0.2s;
+  transition-timing-function: ease-in-out;
   z-index: -1;
+  &[aria-selected='true'] {
+    padding-inline: 0;
+  }
 
   &:before {
     background-position: ${left === 0 ? 'top right' : 'top left, top right'};
