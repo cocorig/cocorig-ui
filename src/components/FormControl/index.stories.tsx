@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Meta, StoryObj } from '@storybook/react';
 
@@ -7,15 +7,15 @@ import { getPropsType } from '../../storybook-props';
 import { Input } from '../Input';
 import { VStack } from '../Stack';
 
+import { runTest } from './storyTest';
+
 import { FormControl } from '.';
 
 const meta = {
   title: 'Components/FormControl',
   component: FormControl,
   args: {
-    label: '비밀번호',
-    helperText: '비밀번호의 길이가 8~20자가 되어야 합니다.',
-    required: true,
+    label: '닉네임',
   },
   argTypes: {
     label: {
@@ -41,25 +41,34 @@ const meta = {
       control: 'text',
     },
   },
-  render: (args) => (
-    <FormControl label="비밀번호" {...args}>
-      <Input placeholder="영문자,숫자,특수문자 포함 8~20자" />
-    </FormControl>
-  ),
 } satisfies Meta<typeof FormControl>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+export type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {};
+export const Template: Story = runTest({
+  render: (args) => {
+    const [value, setValue] = useState('');
+
+    return (
+      <FormControl
+        required
+        status={value.length > 15 ? 'error' : null}
+        helperText={value.length > 15 ? '15자 이하로 작성해주세요' : ''}
+        {...args}
+      >
+        <Input placeholder="값을 입력해주세요" value={value} onChange={(e) => setValue(e.target.value)} />
+      </FormControl>
+    );
+  },
+});
 
 export const Status: Story = {
-  args: {},
   render: (args) => (
     <VStack gap={1} alignItems="flex-start">
       {statesOptions.map((status) => (
         <FormControl status={status} {...args}>
-          <Input placeholder="영문자,숫자,특수문자 포함 8~20자" />
+          <Input placeholder="값을 입력해주세요" />
         </FormControl>
       ))}
     </VStack>
@@ -69,7 +78,7 @@ export const Status: Story = {
 export const Required: Story = {
   render: (args) => (
     <FormControl required helperTextColor="red" {...args}>
-      <Input placeholder="영문자,숫자,특수문자 포함 8~20자" />
+      <Input placeholder="값을 입력해주세요" />
     </FormControl>
   ),
 };
