@@ -14,10 +14,6 @@ const preview: Preview = {
       },
       expanded: true,
     },
-    a11y: {
-      element: '#root',
-      manual: false,
-    },
     layout: 'centered',
   },
   tags: ['autodocs'],
