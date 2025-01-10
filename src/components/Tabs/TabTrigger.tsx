@@ -24,12 +24,15 @@ export default TabTrigger;
 
 export const base = css`
   color: ${COLOR_SET.gray['800']};
-  border-style: solid;
   position: relative;
   grid-row-start: 1;
   text-align: center;
   font-weight: 500;
   ${centerContent('inline')};
-
   cursor: pointer;
+
+  &:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: -5px;
+  }
 `;

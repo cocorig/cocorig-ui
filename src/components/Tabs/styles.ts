@@ -20,12 +20,19 @@ export const variantStyle = (
         margin-bottom: calc(-1 * var(--tab-border));
       `,
       trigger: css`
+        border-style: solid;
         border-width: 0 0 var(--tab-border) 0;
         border-start-start-radius: var(--tab-radius);
         border-start-end-radius: var(--tab-radius);
         border-bottom-color: ${COLOR.subtle};
         padding-inline: 1rem;
         padding-top: var(--tab-border);
+
+        &:focus-visible {
+          border-end-end-radius: 0;
+          border-end-start-radius: 0;
+        }
+
         &[aria-selected='true'] {
           color: ${COLOR.base};
           background-color: ${COLOR.soft};
@@ -60,7 +67,6 @@ export const variantStyle = (
           height: var(--tab-radius);
           bottom: 0;
           background-size: var(--tab-radius);
-
           background-repeat: no-repeat;
         }
 
@@ -83,6 +89,7 @@ export const variantStyle = (
         border-bottom-right-radius: var(--tab-radius);
         border-bottom-left-radius: var(--tab-radius);
         width: 100%;
+
         &:nth-of-type(2)[data-state='active'] {
           border-top-left-radius: 0;
         }
@@ -118,7 +125,6 @@ export const variantStyle = (
         &[aria-selected='true'] {
           color: ${COLOR.base};
         }
-
         &[aria-selected='true']::before {
           content: '';
           position: absolute;
