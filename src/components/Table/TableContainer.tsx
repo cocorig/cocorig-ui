@@ -10,7 +10,11 @@ interface TableContainerProps extends HTMLAttributes<HTMLDivElement>, Pick<Table
   height: number | string;
 }
 export const TableContainer = ({ children, ...props }: TableContainerProps) => {
-  return <StyledContainer {...props}>{children}</StyledContainer>;
+  return (
+    <StyledContainer tabIndex={0} {...props}>
+      {children}
+    </StyledContainer>
+  );
 };
 
 const StyledContainer = styled.div<TableContainerProps>`
