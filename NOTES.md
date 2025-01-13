@@ -216,7 +216,7 @@ npm install --save-dev rollup @rollup/plugin-terser @rollup/plugin-node-resolve 
 
 ---
 
-## 2. 스토리북
+# 2. 스토리북
 
 [default value](https://storybook.js.org/docs/faq#why-are-my-args-no-longer-displaying-the-default-values)
 
@@ -341,3 +341,49 @@ export type MarginSpacing = {
     mx?: number | undefined;
 }*/
 ```
+
+<br>
+
+# 3. 컴포넌트 테스트
+
+- testing-library <br>
+
+🔗 [testing-library/jest-dom](https://github.com/testing-library/jest-dom?tab=readme-ov-file#tobevisible)
+🔗 [testing-library](https://testing-library.com/)
+🔗 [about queries](https://testing-library.com/docs/queries/about/)
+🔗 [ByRole](https://testing-library.com/docs/queries/byrole/#options)
+
+- jest <br>
+
+🔗 [jest Expect](https://jestjs.io/docs/expect)
+
+- mdn <br>
+  🔗 [ARIA: Roles, states, and properties](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques#roles)
+  🔗 [ARIA: document structural roles](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/structural_roles)
+
+## 테스트 시나리오
+
+| #           | 설명/명세                                                 | 조건(실행할 로직)                                                                                       | 검증/확인할 것                                                                                       |
+| ----------- | --------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| Button      | 클릭 시 onClick 이벤트 발생                               | 사용자가 버튼을 클릭한다.                                                                               | 이벤트가 정상적으로 실행되는지 확인                                                                  |
+|             | tab 키로 포커스 상태 전환                                 | 사용자가 tab 키를 눌러 포커스를 이동시킨다.                                                             | 버튼에 포커스가 잘 이동하는지 확인                                                                   |
+| Badge       | 컴포넌트가 화면에 나타나는지 확인                         | 화면에 Badge를 렌더링 한다.                                                                             | Badge가 정상적으로 화면에 나타나는지 확인                                                            |
+| Blockquote  | 컴포넌트가 화면에 나타나는지 확인                         | 화면에 Blockquote를 렌더링 한다.                                                                        | Blockquote가 정상적으로 화면에 나타나는지 확인                                                       |
+| Accordion   | 기본적으로 모든 body 요소가 닫혀있다                      | role이 region인 요소를 찾고, aria-hidden이 모두 true 인지 확인한다.                                     | 모든 body 요소가 닫혀있는지 확인                                                                     |
+|             | 첫 번째 헤더 클릭 시 콘텐츠가 열린다                      | 첫 번째 항목을 클릭한다.                                                                                | 첫 번째 항목이 열리고 나머지는 닫혀 있는지 확인                                                      |
+|             | 다른 항목 클릭 시 이전 항목이 닫히고 새로운 항목이 열린다 | 두 번째 항목을 클릭한다.                                                                                | 이전 항목이 닫히고, 새로 클릭한 항목이 열리는지 확인                                                 |
+|             | allowMultiple 속성이 true 일 때 여러 항목이 열린다        | 두 개 이상의 항목을 클릭한다.                                                                           | 모든 선택된 항목이 동시에 열리는지 확인                                                              |
+|             | defaultId 설정 시 해당 항목이 처음부터 열린다             | defaultId를 설정 후 렌더링 한다.                                                                        | 지정된 defaultId 항목이 처음부터 열려있는지 확인                                                     |
+|             | 키보드로 포커스 이동 후 항목 열기                         | ArrowDown/ArrowUp 및 Enter 키를 사용한다.                                                               | 포커스가 정상적으로 이동하고, Enter로 해당 항목이 열리는지 확인                                      |
+| Input       | 값 입력 시 업데이트                                       | 사용자가 "Input 테스트"라고 입력한다.                                                                   | input의 값이 “Input 테스트"인지 확인                                                                 |
+|             | 10자 이상 입력 시 에러 상태로 변환                        | 10자 이상의 값을 입력한다                                                                               | border-color가 에러 색상으로 변경되는지 확인                                                         |
+| FormControl | 유효성 검사 실패 시 helperText 표시                       | 유효하지 않은 값 입력                                                                                   | helperText가 DOM에 나타나는지 확인                                                                   |
+|             | 유효성 검사 성공 시 helperText 사라짐                     | 유효한 값으로 다시 입력                                                                                 | helperText가 DOM에 서 사라지는지 확인                                                                |
+|             | 필수 입력 검사                                            | formControl에서 required 속성을 설정하면 input 필드에 required 속성이 적용되도록 children으로 전달한다. | input 요소가 required 속성을 가지고 있는지 확인                                                      |
+| Menu        | 버튼 클릭 시 메뉴가 열린다.                               | 버튼 클릭 후 role=menu인 요소가 화면에 보이는지 확인한다                                                | 버튼을 클릭했을 때 메뉴가 열리는지 확인                                                              |
+|             | ArrowDown/ArrowUp 키보드 이벤트                           | 메뉴가 열린 상태에서, ArrowDown/ArrowUp 키를 눌러 메뉴 항목을 탐색한다.                                 | 사용자가 키보드에서 ArrowDown/ArrowUp 키를 사용하여 메뉴 항목을 탐색할 수 있는지 확인                |
+|             | Enter 시 값 입력                                          | 메뉴가 열린 상태에서, Enter 키를 눌러 해당 항목이 선택한다                                              | 사용자가 Enter 키를 눌러 메뉴 항목을 선택할 수 있는지 확인                                           |
+|             | 외부 요소 클릭 시 메뉴 닫힘                               | 메뉴가 열린 상태에서 외부 요소를 클릭한다                                                               | 메뉴 외부를 클릭할 때 메뉴가 닫히는지 확인                                                           |
+| Switch      | 클릭 시 토글                                              | 스위치를 클릭한다                                                                                       | 사용자가 스위치를 클릭할 때 상태가 토글 되는지 확인                                                  |
+| Tabs        | 탭을 클릭하면 해당 탭이 활성화된다.                       | role이 tab인 요소를 찾고, 특정 탭을 클릭한다                                                            | 클릭된 탭의 aria-selected 속성이 true 인지 확인한다.                                                 |
+|             | 다른 탭을 클릭하면 이전 탭은 비활성화된다.                | 현재 활성화된 탭 이외의 다른 tab 요소를 클릭한다                                                        | 새로 클릭된 탭의 aria-selected 속성이 true로 설정되고, 이전에 활성화된 탭의 속성은 false로 설정된다. |
