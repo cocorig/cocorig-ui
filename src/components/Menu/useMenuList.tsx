@@ -39,6 +39,7 @@ export const useMenuList = (itemIndex: number) => {
         onKeyDown,
         onMouseEnter: () => itemRefs?.current[itemIndex]?.focus(),
         'data-value': props.value,
+        role: 'menuitem',
         tabIndex: 0,
         selected: isSelected,
         selectIcon: selectStyle?.icon,
@@ -46,7 +47,7 @@ export const useMenuList = (itemIndex: number) => {
         ...props,
       };
     },
-    [value, onKeyDown, selectStyle?.icon, selectStyle?.css, onValueChange, setOpen, itemRefs, itemIndex],
+    [value, selectStyle?.icon, selectStyle?.css, onValueChange, setOpen, onKeyDown, itemRefs, itemIndex],
   );
 
   return { getMenuItemProps, selectStyle };

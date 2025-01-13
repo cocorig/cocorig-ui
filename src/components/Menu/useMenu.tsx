@@ -4,7 +4,6 @@ import { PropsMerger } from '../../utils';
 
 import { MenuContext } from './MenuContext';
 
-
 export const useMenu = () => {
   const context = useContext(MenuContext);
   if (!context) {
@@ -15,6 +14,7 @@ export const useMenu = () => {
   const getTriggerProps = useCallback<PropsMerger>(
     (props = {}) => ({
       open,
+      'aria-expanded': open ? 'true' : 'false',
       onClick: toggleMenu,
       ...props,
     }),
@@ -28,6 +28,7 @@ export const useMenu = () => {
   const getMenuListProps = useCallback<PropsMerger>(
     (props = {}) => ({
       open,
+      role: 'menu',
       ...props,
     }),
     [open],
