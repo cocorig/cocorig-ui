@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Meta, StoryObj } from '@storybook/react';
 
 import { colorPaletteOptions } from '../../foundation';
 import { getDefaultValue } from '../../storybook-props';
 import { HStack } from '../Stack';
+
+import { runTest } from './storyTest';
 
 import { Switch } from '.';
 
@@ -13,6 +15,7 @@ const meta = {
   component: Switch,
   parameters: {},
   args: {
+    label: 'Switch',
     colorScheme: 'gray',
     size: 'lg',
     checked: true,
@@ -49,15 +52,23 @@ const meta = {
 } satisfies Meta<typeof Switch>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+export type Story = StoryObj<typeof meta>;
 
 const renderSwitch = (args, overrides = {}) => (
   <Switch {...args} {...overrides} onCheckedChange={(event) => args.onCheckedChange(event)} />
 );
 
-export const Default: Story = {
-  render: (args) => renderSwitch(args),
-};
+export const Default: Story = runTest({
+  render: (args) => {
+    const [toggle, setToggle] = useState(false);
+
+    return (
+      <Switch {...args} checked={toggle} onCheckedChange={(event) => setToggle(event.target.checked)}>
+        스위치
+      </Switch>
+    );
+  },
+});
 
 const sizeOptions = ['md', 'lg'] as const;
 

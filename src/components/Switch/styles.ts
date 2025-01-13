@@ -28,6 +28,7 @@ export const StyledSwitch = styled.label<Pick<SwitchProps, 'size' | 'colorScheme
   --switch-size: calc(var(--control-height) - 4px);
 
   display: inline-flex;
+  gap: 0.625rem;
   align-items: center;
   position: relative;
   vertical-align: middle;
@@ -55,9 +56,14 @@ export const StyledSwitch = styled.label<Pick<SwitchProps, 'size' | 'colorScheme
     background-color: var(--control-background);
     border-radius: ${BORDER_RADIUS_SET.rounded};
     transition: background-color 0.3s;
+
+    &:focus-visible {
+      outline-offset: 2px;
+      outline: 2px solid var(--switch-active-color);
+    }
   }
 
-  [data-part='switch'] {
+  [data-part='thumb'] {
     position: absolute;
     inset-inline-start: var(--offset);
     display: grid;
@@ -74,7 +80,7 @@ export const StyledSwitch = styled.label<Pick<SwitchProps, 'size' | 'colorScheme
     background-color: var(--switch-active-color);
   }
 
-  input:checked + [data-part='control'] [data-part='switch'] {
+  input:checked + [data-part='control'] [data-part='thumb'] {
     inset-inline-start: calc(var(--control-width) - var(--control-height) + var(--offset));
     background-color: ${COLOR_SET.white};
   }
