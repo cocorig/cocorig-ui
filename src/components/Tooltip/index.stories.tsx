@@ -36,14 +36,14 @@ const meta = {
     },
   },
   render: ({ ...args }) => (
-    <Tooltip {...args}>
+    <Tooltip {...args} role="tooltip">
       <Button>Hover me!!</Button>
     </Tooltip>
   ),
 } satisfies Meta<typeof Tooltip>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+export type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
 

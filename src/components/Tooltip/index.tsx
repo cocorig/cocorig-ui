@@ -11,7 +11,7 @@ export interface TooltipProps extends HTMLAttributes<HTMLDivElement>, SystemProp
 export const Tooltip = forwardRef(
   ({ children, 'data-tip': dataTip, ...props }: TooltipProps, ref: Ref<HTMLDivElement>) => {
     return (
-      <StyledTooltip data-tip={dataTip} {...props} ref={ref}>
+      <StyledTooltip role="tooltip" data-tip={dataTip} {...props} ref={ref}>
         {children}
       </StyledTooltip>
     );
