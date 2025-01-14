@@ -1,6 +1,7 @@
 import { create } from '@storybook/theming';
 import { addons } from '@storybook/manager-api';
-
+// @ts-expect-error
+import brandImage from './logo.svg';
 const theme = create({
   base: 'light',
   // Typography
@@ -8,7 +9,7 @@ const theme = create({
   fontCode: 'monospace',
   brandTitle: 'cocorig UI Storybook',
   brandUrl: 'https://github.com/cocorig/cocorig-ui',
-  brandImage: '',
+  brandImage: brandImage,
   brandTarget: '_self',
 
   //
