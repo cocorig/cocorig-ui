@@ -10,7 +10,6 @@ export type CommonStyle = {
   width?: string | number;
   minW?: string | number;
   color?: string;
-  columnBorder?: boolean;
 };
 export const ColumnHeader = ({ children, ...props }: ColumnHeaderProps) => {
   return <CommonStyled {...props}>{children}</CommonStyled>;
@@ -23,13 +22,4 @@ export const CommonStyled = styled.th<CommonStyle>`
   width: ${({ width }) => (width ? toSizeUnit(width) : 'auto')};
   min-width: ${({ minW }) => (minW ? toSizeUnit(minW) : 'auto')};
   color: ${({ color }) => color};
-
-  ${({ columnBorder }) =>
-    columnBorder &&
-    `
-    &:not(:last-child) {
-      border-inline-end-width: 1px;
-      border-color: var(--border-color);
-    }
-  `}
 `;
