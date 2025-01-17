@@ -4,21 +4,26 @@ import { ButtonHTMLAttributes, ReactElement } from 'react';
 
 import styled from '@emotion/styled';
 
+import { centerContent } from '../../css';
+import { COLOR_SET } from '../../foundation';
+import { IconProps } from '../Icon';
+
 import { useAccordionItem } from './AccordionContext';
 
 interface AccordionHeaderProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   icon: ReactElement;
 }
+type AccordionIconProps = IconProps & { color?: string };
 
 export const AccordionHeader = ({ children, icon, ...props }: AccordionHeaderProps) => {
-  const { getHeaderProps } = useAccordionItem();
-
+  const { getHeaderProps, getIconProps } = useAccordionItem();
   const headerProps = getHeaderProps(props);
+  const iconProps = getIconProps(props);
 
   return (
     <StyledAccordionHeader type="button" {...headerProps}>
       <AccordionTitle>{children}</AccordionTitle>
-      {icon}
+      <StyledIcon {...iconProps}>{icon}</StyledIcon>
     </StyledAccordionHeader>
   );
 };
@@ -48,4 +53,10 @@ const AccordionTitle = styled.div`
   flex: 1 1 0%;
   text-align: start;
   width: 100%;
+`;
+
+const StyledIcon = styled.div<Pick<AccordionIconProps, 'color'>>`
+  ${centerContent('inline')};
+  color: ${({ color }) => color ?? COLOR_SET.gray['900']};
+  font-size: inherit;
 `;

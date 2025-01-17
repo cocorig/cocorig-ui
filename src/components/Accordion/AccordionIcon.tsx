@@ -1,7 +1,3 @@
-import styled from '@emotion/styled';
-
-import { centerContent } from '../../css';
-import { COLOR_SET } from '../../foundation';
 import { Icon, IconProps } from '../Icon';
 
 import { useAccordionItem } from './AccordionContext';
@@ -21,23 +17,14 @@ export const AccordionIcon = ({ ...props }: AccordionIconProps) => {
   };
 
   return (
-    <StyledIcon {...iconProps}>
-      <Icon viewBox="0 0 24 24" fill="none" style={iconStyles}>
-        <path
-          d="M 6 9 L 12 15 L 18 9"
-          stroke="currentColor"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </Icon>
-    </StyledIcon>
+    <Icon viewBox="0 0 24 24" fill="none" style={iconStyles}>
+      <path
+        d="M 6 9 L 12 15 L 18 9"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </Icon>
   );
 };
-
-const StyledIcon = styled.div<Pick<AccordionIconProps, 'color'>>`
-  ${centerContent('inline')};
-
-  color: ${({ color }) => color ?? COLOR_SET.gray['900']};
-  font-size: inherit;
-`;
