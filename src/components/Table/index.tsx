@@ -10,17 +10,21 @@ import { SystemProps } from '../../styled-system';
 import { Body } from './Body';
 import { Cell } from './Cell';
 import { ColumnHeader } from './ColumnHeader';
+import { Container } from './Container';
 import { Head } from './Head';
 import { Row } from './Row';
 import { SIZE_SET } from './styles';
-import { TableContainer } from './TableContainer';
 
-interface TableProps extends TableHTMLAttributes<HTMLTableElement>, SystemProps<'table'> {}
-type TableStyle = ColorStyleReturnType & Pick<TableProps, 'size'>;
-export const Table = ({ children, colorScheme, ...props }: TableProps) => {
+interface TableProps extends TableHTMLAttributes<HTMLTableElement>, SystemProps<'table'> {
+  pinnedHeader?: boolean;
+}
+
+type TableStyle = ColorStyleReturnType & Pick<TableProps, 'size' | 'pinnedHeader' | 'variant'>;
+
+export const Table = ({ children, colorScheme, pinnedHeader = false, ...props }: TableProps) => {
   const COLOR = useMemo(() => getColorStyles(colorScheme), [colorScheme]);
   return (
-    <StyledTable {...COLOR} {...props}>
+    <StyledTable pinnedHeader={pinnedHeader} {...COLOR} {...props}>
       {children}
     </StyledTable>
   );
@@ -32,22 +36,28 @@ const StyledTable = styled.table<TableStyle>`
   display: table;
   position: relative;
   border-collapse: collapse;
-  box-shadow: 0 0 0 1px var(--border-color);
-  border-radius: ${BORDER_RADIUS_SET.default};
   font-variant-numeric: lining-nums tabular-nums;
   overflow: hidden;
-  ${({ size = 'sm', soft, subtle }) => {
+
+  ${({ pinnedHeader, variant = 'outline', size = 'sm', soft, subtle }) => {
     const { p } = SIZE_SET[size];
 
     return css`
       --table-padding: ${toSizeUnit(p)};
       --border-color: ${subtle};
-      --bg-color: ${soft};
+      --bg-color: ${variant === 'outline' ? soft : 'transparent'};
       ${textStyle(size)}
+
+      ${!pinnedHeader &&
+      variant === 'outline' &&
+      css`
+        box-shadow: 0 0 0 1px var(--border-color);
+        border-radius: ${BORDER_RADIUS_SET.default};
+      `}
     `;
   }}
 `;
-Table.Container = TableContainer;
+Table.Container = Container;
 Table.Head = Head;
 Table.ColumnHeader = ColumnHeader;
 Table.Body = Body;
