@@ -17,10 +17,10 @@ const items = [
   { title: '4일차', text: '해변에서 휴식 후 석양 감상' },
 ];
 
-const renderAccordionItems = (items: { title: string; text: string }[]) => {
+const renderAccordionItems = (items: { title: string; text: string }[], icon?: React.ReactElement) => {
   return items.map((item, index) => (
     <Accordion.Item key={index} itemValue={index}>
-      <Accordion.Header icon={<Accordion.Icon />}>{item.title}</Accordion.Header>
+      <Accordion.Header icon={icon ? icon : <Accordion.Icon />}>{item.title}</Accordion.Header>
       <Accordion.Body>{item.text}</Accordion.Body>
     </Accordion.Item>
   ));
@@ -30,7 +30,6 @@ const meta = {
   title: 'Components/Accordion',
   component: Accordion,
   parameters: {},
-
   render: (args) => <Accordion {...args}>{renderAccordionItems(items)}</Accordion>,
   args: {
     size: 'md',
@@ -106,3 +105,20 @@ export const MultipleOpenDefault: Story = runTestWithArgs({
     defaultId: [1],
   },
 });
+
+export const WithRenderProps: Story = {
+  render: () => (
+    <Accordion>
+      {items.map((item, index) => (
+        <Accordion.Item key={index} itemValue={index}>
+          {({ isExpanded }) => (
+            <>
+              <Accordion.Header icon={isExpanded ? <span>-</span> : <span>+</span>}>{item.title}</Accordion.Header>
+              <Accordion.Body>{item.text}</Accordion.Body>
+            </>
+          )}
+        </Accordion.Item>
+      ))}
+    </Accordion>
+  ),
+};
