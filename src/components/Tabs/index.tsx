@@ -15,16 +15,29 @@ import TabTrigger, { base } from './TabTrigger';
 
 type TabProps = {
   children?: ReactNode;
+  /**
+   * 초기 선택 값 (`Uncontrolled` 상태로 동작할 때 사용합니다).
+   */
   defaultValue?: string;
+  /**
+   * 외부에서 Tab의 선택 값을 관리합니다.
+   * `Controlled` 상태에서는 반드시 `onControlledChange` 콜백도 함께 전달해야 합니다.
+   */
   controlledValue?: string | null;
+  /**
+   * `Controlled` 상태에서 선택 값이 변경될 때 호출되는 콜백 함수.
+   */
   onControlledChange?: (value: string) => void;
-  indicator?: boolean;
+  /**
+   * `Indicator`를 애니메이션으로 표시할지 결정합니다.
+   */
+  isIndicatorAnimated?: boolean;
 } & SystemProps<'tab'>;
 
 type TabContextProps = {
   value: string | null;
   onValueChange: (value: string) => void;
-  indicator?: boolean;
+  isIndicatorAnimated?: boolean;
 } & SystemProps<'tab'>;
 
 const TabContext = createContext<TabContextProps | null>(null);
@@ -32,7 +45,7 @@ const TabContext = createContext<TabContextProps | null>(null);
 export const Tab = ({
   size,
   variant,
-  indicator,
+  isIndicatorAnimated,
   colorScheme,
   defaultValue,
   controlledValue,
@@ -54,7 +67,7 @@ export const Tab = ({
   );
 
   return (
-    <TabContext.Provider value={{ size, value, variant, onValueChange, colorScheme, indicator }}>
+    <TabContext.Provider value={{ size, value, variant, onValueChange, colorScheme, isIndicatorAnimated }}>
       <StyledTabs>{children}</StyledTabs>
     </TabContext.Provider>
   );
@@ -67,7 +80,7 @@ export const useTabs = () => {
     throw new Error('useTabContext must be used within a Tab');
   }
 
-  const { indicator, value, onValueChange, variant, size = 'md', colorScheme } = context;
+  const { isIndicatorAnimated, value, onValueChange, variant, size = 'md', colorScheme } = context;
 
   const { list, trigger, content } = useMemo(() => variantStyle(variant, colorScheme), [variant, colorScheme]);
 
@@ -84,10 +97,10 @@ export const useTabs = () => {
       'aria-selected': value === props.value,
       'data-value': props.value,
       role: 'tab',
-      css: indicator ? [getSizesAndFontSize(size), base] : [getSizesAndFontSize(size), base, trigger],
+      css: isIndicatorAnimated ? [getSizesAndFontSize(size), base] : [getSizesAndFontSize(size), base, trigger],
       ...props,
     }),
-    [indicator, size, trigger, value],
+    [isIndicatorAnimated, size, trigger, value],
   );
   const getContentProps = useCallback<PropsMerger>(
     (props = {}) => ({
@@ -122,7 +135,7 @@ export const useTabs = () => {
     size,
     value,
     variant,
-    indicator,
+    isIndicatorAnimated,
     onValueChange,
     getListProps,
     getTriggerProps,

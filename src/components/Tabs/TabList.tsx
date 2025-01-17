@@ -14,15 +14,15 @@ interface TabListProps extends HTMLAttributes<HTMLDivElement> {
 type TabStyles = {
   left?: number;
   width?: number;
-  justify?: 'start' | 'center' | 'end';
-};
+} & Pick<TabListProps, 'justify'>;
+
 const TabList = ({ children, ...props }: TabListProps) => {
   const [indicatorStyle, setIndicatorStyle] = useState({
     width: 0,
     left: 0,
     height: 0,
   });
-  const { variant, indicator, value: activeValue, onValueChange, getListProps } = useTabs();
+  const { variant, isIndicatorAnimated, value: activeValue, onValueChange, getListProps } = useTabs();
 
   const { css } = getListProps();
 
@@ -65,7 +65,7 @@ const TabList = ({ children, ...props }: TabListProps) => {
     <div role="tablist" ref={tabListRef} css={[base, css]} onClick={handleSelectTab} {...props}>
       {children}
 
-      {indicator && <Indicator {...indicatorStyle} />}
+      {isIndicatorAnimated && <Indicator {...indicatorStyle} />}
     </div>
   );
 };
