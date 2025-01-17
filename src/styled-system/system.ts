@@ -4,7 +4,7 @@ import { StyledProperties } from './types/propTypes';
 
 type OptionalValue<T> = T | undefined;
 
-type ExcludeStyledProperties = 'formControl' | 'switch' | 'blockquote' | 'accordion' | 'menu';
+type ExcludeStyledProperties = 'formControl' | 'switch' | 'blockquote' | 'accordion' | 'menu' | 'table' | 'tab';
 
 export type SystemProps<T extends keyof ComponentConfig> = T extends ExcludeStyledProperties
   ? ComponentConfig[T]
@@ -51,7 +51,7 @@ export type InputVariantProps = {
  * FormControl
  */
 export interface FormControlVariant {
-  status: StatusVariantOptions;
+  status: StatusVariantOptions | null;
   label: string;
   helperText: string;
   required: boolean;
