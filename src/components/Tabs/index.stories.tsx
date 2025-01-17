@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Meta, StoryObj } from '@storybook/react';
 
@@ -12,17 +12,10 @@ const meta = {
   title: 'Components/Tab',
   component: Tab,
   parameters: {},
-  args: {},
-  argTypes: {
-    // size: {
-    //   options: ['2xs', 'xs', 'sm', 'md'],
-    //   control: {
-    //     type: 'radio',
-    //   },
-    //   table: {
-    //     defaultValue: { summary: 'md' },
-    //   },
-    // },
+  args: {
+    size: 'md',
+    variant: 'underlined',
+    colorScheme: 'gray',
   },
   render: (args) => (
     <div style={{ width: '300px' }}>
@@ -69,10 +62,20 @@ export const Variants: Story = {
     </VStack>
   ),
 };
-
+export const Controlled: Story = {
+  render: () => {
+    const [value, setValue] = useState<string | null>('members');
+    return (
+      <Tab controlledValue={value} onControlledChange={(value) => setValue(value)}>
+        <TabList />
+        <TabContent />
+      </Tab>
+    );
+  },
+};
 export const Animation: Story = {
   args: {
-    variant: 'lifted',
-    indicator: true,
+    variant: 'boxed',
+    isIndicatorAnimated: true,
   },
 };
