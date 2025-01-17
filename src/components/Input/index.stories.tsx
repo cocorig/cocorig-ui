@@ -13,7 +13,6 @@ import { Input } from '.';
 const meta = {
   title: 'Components/Input',
   component: Input,
-  parameters: {},
   args: {
     placeholder: '값을 입력해주세요',
     variant: 'outline',

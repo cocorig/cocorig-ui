@@ -1,6 +1,7 @@
 import { Meta, StoryObj } from '@storybook/react';
 
 import { Body, colorPaletteOptions } from '../../foundation';
+import { getPropsType } from '../../storybook-props';
 import { HStack, VStack } from '../Stack';
 
 import { runTest } from './storyTest';
@@ -15,6 +16,13 @@ const meta = {
       <Body>내일 죽는다면 오늘 대부분의 일들은 아무것도 아닐 것이다. 그러니 너무 하나하나에 연연하며 살지 말자.</Body>
     ),
     borderRadius: 0,
+  },
+  argTypes: {
+    children: {
+      table: {
+        ...getPropsType('ReactNode'),
+      },
+    },
   },
 } satisfies Meta<typeof Blockquote>;
 

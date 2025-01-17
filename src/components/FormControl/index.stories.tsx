@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 import { Meta, StoryObj } from '@storybook/react';
 
-import { statesOptions } from '../../foundation';
-import { getPropsType } from '../../storybook-props';
+import { COLOR_SET, statesOptions } from '../../foundation';
+import { getDefaultValue, getPropsType } from '../../storybook-props';
 import { Input } from '../Input';
 import { VStack } from '../Stack';
 
@@ -16,6 +16,7 @@ const meta = {
   component: FormControl,
   args: {
     label: '닉네임',
+    helperTextColor: COLOR_SET.gray[800],
   },
   argTypes: {
     label: {
@@ -23,7 +24,20 @@ const meta = {
         ...getPropsType('string'),
       },
     },
+    status: {
+      options: statesOptions,
+      control: {
+        type: 'select',
+      },
+      table: {
+        ...getPropsType(' error | warning | info | success | null'),
+        ...getDefaultValue('null'),
+      },
+    },
     helperText: {
+      control: {
+        type: 'text',
+      },
       table: {
         ...getPropsType('string'),
       },

@@ -18,7 +18,7 @@ const meta = {
       options: ['sm', 'md'],
       control: { type: 'radio' },
       table: {
-        defaultValue: { summary: 'md' },
+        defaultValue: { summary: 'sm' },
       },
     },
   },
@@ -32,10 +32,10 @@ const menuItems = ['created', 'updated', 'comments'];
 
 export const Default: Story = {
   args: {},
-  render: () => {
+  render: (args) => {
     const [value, setValue] = useState(menuItems[0]);
     return (
-      <Menu>
+      <Menu {...args}>
         <Menu.Trigger>{value}</Menu.Trigger>
         <Menu.List value={value} onValueChange={(value) => setValue(value)} minW="200px">
           {menuItems.map((item, index) => (
@@ -58,13 +58,13 @@ const groupItems = [
     items: ['Box', 'Stack', 'Flex'],
   },
 ];
+
 export const Group: Story = runTest({
-  args: {},
-  render: () => {
+  render: (args) => {
     const [value, setValue] = useState('Menu');
     let index = 0;
     return (
-      <Menu>
+      <Menu {...args}>
         <Menu.Trigger>{value}</Menu.Trigger>
         <Menu.List value={value} onValueChange={(value) => setValue(value)} minW="200px">
           {groupItems.map((group) => (

@@ -1,17 +1,36 @@
 import React from 'react';
 
 import { Meta, StoryObj } from '@storybook/react';
+import { fn } from '@storybook/test';
 
+import { getDefaultValue } from '../../storybook-props';
+import { commonArgTypes } from '../Badge/index.stories';
 import { Icon } from '../Icon';
 
 import { IconButton } from '.';
-
 const meta = {
   title: 'Components/IconButton',
   component: IconButton,
   parameters: {},
-  args: {},
-  argTypes: {},
+  args: {
+    label: 'github로 이동',
+    size: 'md',
+    colorScheme: 'gray',
+    variant: 'base',
+    borderRadius: 'default',
+    onClick: fn(),
+  },
+  argTypes: {
+    ...commonArgTypes,
+    iconSpacing: {
+      table: {
+        ...getDefaultValue('12px'),
+      },
+    },
+    label: {
+      description: 'aria-label 값을 지정합니다.',
+    },
+  },
 } satisfies Meta<typeof IconButton>;
 
 export default meta;
