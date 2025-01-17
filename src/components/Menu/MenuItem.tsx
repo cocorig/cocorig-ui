@@ -49,6 +49,9 @@ const Item = styled.li<MenuItemStyle>`
   flex-wrap: wrap;
   align-items: stretch;
   outline: 0;
+  font-size: var(--menu-fontSize);
+  line-height: var(--menu-lineHeight);
+
   ${({ isSelected, selectCSS }) => isSelected && selectCSS}
   border-radius: var(--menu-radius);
   &:focus,
@@ -68,9 +71,6 @@ const ItemButton = styled.button<MenuItemStyle>`
   grid-auto-columns: minmax(auto, max-content) auto max-content;
   -webkit-user-select: none;
   user-select: none;
-
-  font-size: var(--menu-fontSize);
-  line-height: var(--menu-lineHeight);
 
   padding-block: var(--menu-py);
   padding-inline-start: ${({ hasSelectIcon, isSelected }) =>

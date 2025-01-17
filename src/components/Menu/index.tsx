@@ -3,7 +3,7 @@ import React, { HTMLAttributes } from 'react';
 import styled from '@emotion/styled';
 
 import { toSizeUnit } from '../../css';
-import { BORDER_RADIUS_SET, TEXT_SIZE_SET } from '../../foundation';
+import { BORDER_RADIUS_SET, COLOR_SET, TEXT_SIZE_SET } from '../../foundation';
 import { SystemProps } from '../../styled-system';
 
 import { MenuProvider } from './MenuContext';
@@ -23,8 +23,8 @@ export const Menu = ({ children, ...props }: MenuProps) => {
 };
 
 const MenuContainer = styled.div<MenuProps>`
-  --menu-bg: #ffff;
-  --menu-color: #09090b;
+  --menu-bg: ${COLOR_SET.white};
+  --menu-color: ${COLOR_SET.gray[900]};
   --menu-radius: ${BORDER_RADIUS_SET.default};
   --menu-px: 0.5rem;
   --menu-py: 0.375rem;
