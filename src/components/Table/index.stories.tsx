@@ -10,8 +10,11 @@ import { Table } from '.';
 const meta = {
   title: 'Components/Table',
   component: Table,
-  parameters: {},
-  args: {},
+  args: {
+    variant: 'outline',
+    size: 'sm',
+    colorScheme: 'gray',
+  },
   argTypes: {
     variant: {
       options: ['line', 'outline'],
@@ -22,6 +25,7 @@ const meta = {
     },
     size: {
       options: ['sm', 'md', 'lg'],
+      ...getDefaultValue('sm'),
       control: {
         type: 'radio',
       },
@@ -51,7 +55,7 @@ const TableHeader = () => (
     <Table.Row>
       <Table.ColumnHeader>Name</Table.ColumnHeader>
       <Table.ColumnHeader>Department</Table.ColumnHeader>
-      <Table.ColumnHeader>Salary</Table.ColumnHeader>
+      <Table.ColumnHeader textAlign="end">Salary</Table.ColumnHeader>
     </Table.Row>
   </Table.Head>
 );
@@ -62,7 +66,7 @@ const TableBody = ({ data }: { data: Array<{ id: number; name: string; departmen
       <Table.Row key={item.id}>
         <Table.Cell>{item.name}</Table.Cell>
         <Table.Cell>{item.department}</Table.Cell>
-        <Table.Cell>{item.salary}</Table.Cell>
+        <Table.Cell textAlign="end">{item.salary}</Table.Cell>
       </Table.Row>
     ))}
   </Table.Body>
@@ -77,11 +81,10 @@ export const Default: Story = {
   ),
 };
 
-export const StickyHeader: Story = {
-  args: {},
+export const PinnedHeader: Story = {
   render: () => (
-    <Table.Container height="100px">
-      <Table variant="line">
+    <Table.Container height="150px" borderWidth={'1px'}>
+      <Table>
         <TableHeader />
         <TableBody data={data} />
       </Table>
