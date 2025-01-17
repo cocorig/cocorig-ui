@@ -27,12 +27,12 @@ export const Accordion = ({
 }: AccordionProps) => {
   const [openItems, setOpenItems] = useState<number[]>(defaultId);
 
-  const itemRef = useRef<HTMLUListElement>(null);
+  const accordionRef = useRef<HTMLUListElement>(null);
   const headerRefs = useRef<HTMLButtonElement[]>([]);
 
   useEffect(() => {
-    if (itemRef.current) {
-      const buttons = Array.from(itemRef.current.querySelectorAll('button'));
+    if (accordionRef.current) {
+      const buttons = Array.from(accordionRef.current.querySelectorAll('button'));
       headerRefs.current = buttons;
     }
   }, []);
@@ -67,7 +67,7 @@ export const Accordion = ({
         body,
       }}
     >
-      <StyledAccordion ref={itemRef} {...SIZE_SET[size]} {...props} {...marginProps(props)}>
+      <StyledAccordion ref={accordionRef} {...SIZE_SET[size]} {...props} {...marginProps(props)}>
         {children}
       </StyledAccordion>
     </AccordionContext.Provider>
