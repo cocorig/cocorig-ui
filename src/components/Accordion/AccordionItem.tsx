@@ -4,10 +4,10 @@ import { LiHTMLAttributes } from 'react';
 
 import { AccordionItemContext, useAccordion } from './AccordionContext';
 
-type AccordionItemProps = {
+interface AccordionItemProps extends Omit<LiHTMLAttributes<HTMLLIElement>, 'children'> {
   itemValue: number;
   children?: React.ReactNode | ((props: { isExpanded: boolean }) => React.ReactNode);
-} & LiHTMLAttributes<HTMLLIElement>;
+}
 
 export const AccordionItem = ({ itemValue, children, ...props }: AccordionItemProps) => {
   const { openItems, toggleItem, getAccordionItemProps } = useAccordion();
