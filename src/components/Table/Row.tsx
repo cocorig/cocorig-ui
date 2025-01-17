@@ -13,7 +13,6 @@ const StyledRow = styled.tr`
   color: ${COLOR_SET.gray['900']};
   thead &,
   tbody &:not(:last-child) {
-    border-bottom-width: 1px;
-    border-bottom-color: var(--border-color);
+    border-bottom: 1px solid var(--border-color);
   }
 `;
