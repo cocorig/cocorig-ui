@@ -6,6 +6,7 @@
 
 # storybook
 *storybook.log
+*storybook-static
 
 # misc
 .DS_Store
