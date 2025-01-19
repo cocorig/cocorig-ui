@@ -1,7 +1,6 @@
 import { css, SerializedStyles } from '@emotion/react';
 import styled from '@emotion/styled';
 
-
 import { fontStyle, toSizeUnit } from '../../css';
 import { InputVariant } from '../../styled-system';
 import { BaseComponent } from '../Input/BaseComponent';
