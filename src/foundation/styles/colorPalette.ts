@@ -59,7 +59,6 @@ export const COLOR_PALLETTE: ColorPallette = {
     indigo: color.indigo[700],
     purple: color.purple[500],
   },
-
   status: {
     error: color.red[500],
     warning: color.yellow[500],
@@ -90,7 +89,6 @@ export const COLOR_PALLETTE: ColorPallette = {
     indigo: color.indigo[50],
     purple: color.purple[50],
   },
-
   font: {
     blue: color.white,
     gray: color.white,
@@ -108,6 +106,7 @@ export const COLOR_PALLETTE: ColorPallette = {
     success: color.white,
   },
 } as const;
+
 export const TEXT_COLORS = {
   default: COLOR_PALLETTE.font,
   muted: {

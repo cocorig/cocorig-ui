@@ -1,9 +1,13 @@
 import { Meta, ColorPalette, ColorItem, Source } from '@storybook/blocks';
 import { COLOR_PALLETTE } from '.';
 
+# ColorPalette
+
 <Meta title="Foundation/ColorPalette" />
 
-# Colors
+## 사용 방법
+
+<Source language="js" dark code={`import { COLOR_PALLETTE } from 'cocorig-ui';`} />
 
 export function colorItemList(items) {
   return Object.entries(items).map(([key, color]) => {
