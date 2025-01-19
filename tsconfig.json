@@ -19,5 +19,5 @@
     "jsx": "react-jsx"
   },
   "include": ["src", "**/*.ts"],
-  "exclude": ["**/*.stories.tsx", "node_modules", "dist"]
+  "exclude": ["**/*.stories.tsx", "node_modules", "*/storybook-props", "dist"]
 }
