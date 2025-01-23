@@ -1,7 +1,8 @@
 import { css, SerializedStyles } from '@emotion/react';
 
-import { BORDER_RADIUS_SET, WEIGHT_SET, SHADOWS_SET } from '../foundation';
-import { StyledProperties } from '../styled-system';
+import { BORDER_RADIUS_SET, SHADOWS_SET, WEIGHT_SET } from '../foundation';
+
+import type { StyledProperties } from '../styled-system/types';
 
 export const getCommonStyles = (props: StyledProperties): SerializedStyles => css`
   ${props.borderRadius &&

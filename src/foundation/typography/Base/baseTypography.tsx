@@ -4,8 +4,14 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import { PaddingSpacing, paddingStyle } from '../../spacing';
-import { FontWeightsToken, LETTER_SPACING_SET, LetterSpacingsToken, WEIGHT_SET } from '../../styles';
-import { TextSizeToken, textStyle } from '../../styles/textSize';
+import {
+  FontWeightsToken,
+  LETTER_SPACING_SET,
+  LetterSpacingsToken,
+  WEIGHT_SET,
+  TextSizeToken,
+  textStyle,
+} from '../../styles';
 
 export type TypographyComponentProps = {
   /**
