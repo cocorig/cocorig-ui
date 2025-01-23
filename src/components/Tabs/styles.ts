@@ -1,9 +1,51 @@
 import { css, SerializedStyles } from '@emotion/react';
 
+import { centerContent } from '../../css';
 import { COLOR_SET, getColorStyles } from '../../foundation';
 import { TabVariant } from '../../styled-system';
 
+import { IndicatorProps } from './types';
+
 export type TabStyleConfig = Record<'list' | 'trigger' | 'content', SerializedStyles>;
+
+export const base = css`
+  color: ${COLOR_SET.gray['800']};
+  position: relative;
+  grid-row-start: 1;
+  text-align: center;
+  font-weight: 500;
+  ${centerContent('inline')};
+  cursor: pointer;
+
+  &:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: -5px;
+  }
+`;
+export const indicatorStyle = ({ width, height, left }: IndicatorProps) => css`
+  --transition-property: left, right, top, bottom, width, height;
+  --left: ${left}px;
+  --width: ${width}px;
+  --height: ${height}px;
+  position: absolute;
+  box-sizing: border-box;
+  left: var(--left);
+  width: var(--width);
+  height: var(--height);
+  will-change: var(--transition-property);
+  transition-property: var(--transition-property);
+  transition-duration: 0.2s;
+  transition-timing-function: ease-in-out;
+  z-index: -1;
+  &[aria-selected='true'] {
+    padding-inline: 0;
+  }
+
+  &:before {
+    background-position: ${left === 0 ? 'top right' : 'top left, top right'};
+    background-image: radial-gradient(var(--radius-${left === 0 ? 'end' : 'start'})), radial-gradient(var(--radius-end));
+  }
+`;
 
 export const variantStyle = (
   variant: TabVariant['variant'] = 'underlined',

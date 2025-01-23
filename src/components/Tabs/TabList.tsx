@@ -1,22 +1,19 @@
 /** @jsxImportSource @emotion/react */
-import { HTMLAttributes, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { css } from '@emotion/react';
 
 import { Indicator } from './Indicator';
+import { useTabs } from './useTabs';
 
-import { useTabs } from '.';
-
-interface TabListProps extends HTMLAttributes<HTMLDivElement> {
-  justify?: 'start' | 'center' | 'end';
-}
+import type { TabListProps } from './types';
 
 type TabStyles = {
   left?: number;
   width?: number;
 } & Pick<TabListProps, 'justify'>;
 
-const TabList = ({ children, ...props }: TabListProps) => {
+export const TabList = ({ children, ...props }: TabListProps) => {
   const [indicatorStyle, setIndicatorStyle] = useState({
     width: 0,
     left: 0,
@@ -69,8 +66,6 @@ const TabList = ({ children, ...props }: TabListProps) => {
     </div>
   );
 };
-
-export default TabList;
 
 const base = ({ justify }: TabStyles) => css`
   display: grid;
