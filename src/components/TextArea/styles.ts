@@ -1,11 +1,12 @@
 import { css, SerializedStyles } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import { fontStyle, toSizeUnit } from '../../css';
+import { fontStyle } from '../../css';
 import { InputVariant } from '../../styled-system';
+import { toSizeUnit } from '../../utils';
 import { BaseComponent } from '../Input/BaseComponent';
 
-import { TextAreaStyle } from '.';
+import { TextAreaStyle } from './types';
 
 export const SIZE_SET: Record<InputVariant['inputSize'], SerializedStyles> = {
   sm: css`
