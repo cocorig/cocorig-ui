@@ -41,7 +41,7 @@ export const Default: Story = runTest({});
 
 const variantOptions = ['base', 'soft', 'subtle', 'outline', 'ghost'] as const;
 export const ButtonVariants: Story = {
-  render: () => (
+  render: (args) => (
     <VStack gap={0.5} alignItems="flex-start">
       {variantOptions.map((variant) => (
         <HStack gap={2} alignItems="center" key={variant}>
@@ -56,7 +56,7 @@ export const ButtonVariants: Story = {
 };
 
 export const ButtonColors: Story = {
-  render: () => (
+  render: (args) => (
     <VStack gap={0.5} alignItems="flex-start">
       {colorPaletteOptions.map((color) => (
         <HStack gap={2} alignItems="center" key={color}>
@@ -73,7 +73,7 @@ export const ButtonColors: Story = {
 };
 
 export const AllButtonVariantsAndColors: Story = {
-  render: () => (
+  render: (args) => (
     <VStack gap={0.5} alignItems="flex-start">
       {colorPaletteOptions.map((color) => (
         <HStack gap={2} alignItems="center" key={color}>

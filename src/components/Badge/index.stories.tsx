@@ -84,7 +84,7 @@ export const BadgeWithIcon: Story = runTest({
 });
 
 export const AllBadgeVariants: Story = {
-  render: () => (
+  render: (args) => (
     <VStack gap={0.5} alignItems="flex-start">
       {colorPaletteOptions.map((colorPalettes) => (
         <HStack gap={2} alignItems="center" key={colorPalettes}>
