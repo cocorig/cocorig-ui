@@ -2,11 +2,11 @@ import { HTMLAttributes } from 'react';
 
 import styled from '@emotion/styled';
 
-import { toSizeUnit } from '../../css';
 import { BORDER_RADIUS_SET, BordersToken, COLOR_PALLETTE } from '../../foundation';
 import { TableVariantProps } from '../../styled-system';
+import { toSizeUnit } from '../../utils';
 
-interface Container extends HTMLAttributes<HTMLDivElement>, Pick<TableVariantProps, 'colorScheme'> {
+export interface Container extends HTMLAttributes<HTMLDivElement>, Pick<TableVariantProps, 'colorScheme'> {
   height: number | string;
   borderRadius?: BordersToken;
   borderWidth?: string | number;

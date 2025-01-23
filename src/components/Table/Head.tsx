@@ -4,7 +4,7 @@ import styled from '@emotion/styled';
 
 import { WEIGHT_SET } from '../../foundation';
 
-interface HeadProps extends HTMLAttributes<HTMLTableSectionElement> {}
+export interface HeadProps extends HTMLAttributes<HTMLTableSectionElement> {}
 export const Head = ({ children, ...props }: HeadProps) => {
   return <StyledHead {...props}>{children}</StyledHead>;
 };

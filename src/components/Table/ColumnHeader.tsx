@@ -2,9 +2,9 @@ import { CSSProperties, ThHTMLAttributes } from 'react';
 
 import styled from '@emotion/styled';
 
-import { toSizeUnit } from '../../css';
+import { toSizeUnit } from '../../utils';
 
-interface ColumnHeaderProps extends ThHTMLAttributes<HTMLTableCellElement>, CommonStyle {}
+export interface ColumnHeaderProps extends ThHTMLAttributes<HTMLTableCellElement>, CommonStyle {}
 export type CommonStyle = {
   textAlign?: CSSProperties['textAlign'];
   width?: string | number;
