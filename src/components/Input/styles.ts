@@ -1,12 +1,11 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import { disable, getCommonStyles } from '../../css';
-import { customTransition } from '../../css/transition';
+import { disable, getCommonStyles, customTransition } from '../../css';
 import { COLOR_SET, marginStyle } from '../../foundation';
 import { InputVariant } from '../../styled-system';
 
-import { InputStyleProps } from '.';
+import type { InputStyleProps } from './types';
 
 export const commonInputStyles = css`
   width: 100%;

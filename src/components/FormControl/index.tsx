@@ -1,23 +1,9 @@
-import { cloneElement, forwardRef, HTMLAttributes, isValidElement, Ref, ReactElement } from 'react';
+import { cloneElement, forwardRef, isValidElement, Ref } from 'react';
 
-import { COLOR_PALLETTE } from '../../foundation/';
-import { SystemProps } from '../../styled-system';
+import { COLOR_PALLETTE } from '../../foundation';
 
 import { HelperText, Indicator, Label, StyledFormControl } from './styles';
-
-interface FormControlProps extends HTMLAttributes<HTMLDivElement>, SystemProps<'formControl'>, FormControlCommonProps {
-  label: string;
-  children?: ReactElement<{ required?: boolean }>;
-}
-
-export type FormControlCommonProps = {
-  labelSize?: string | number;
-  helperTextSize?: string | number;
-  helperTextColor?: string;
-};
-export type FormControlStyle = {
-  statusColor?: string;
-} & FormControlCommonProps;
+import { FormControlProps } from './types';
 
 export const FormControl = forwardRef(
   ({ children, required, status, label, helperText, ...props }: FormControlProps, ref: Ref<HTMLDivElement>) => {

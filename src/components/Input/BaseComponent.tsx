@@ -5,7 +5,7 @@ import { PolymorphicProps, RefForElement } from '../../styled-system';
 
 import { StyledComponent } from './styles';
 
-import { CommonInputProps } from '.';
+import type { CommonInputProps } from './types';
 
 type BaseComponentProps<T extends React.ElementType> = PolymorphicProps<T, CommonInputProps>;
 

@@ -1,9 +1,9 @@
 import styled from '@emotion/styled';
 
-import { toSizeUnit } from '../../css';
 import { COLOR_SET, WEIGHT_SET } from '../../foundation';
+import { toSizeUnit } from '../../utils';
 
-import { FormControlStyle } from '.';
+import { FormControlStyle } from './types';
 
 export const StyledFormControl = styled.div<FormControlStyle>`
   --label-size: ${({ labelSize }) => toSizeUnit(labelSize ?? 1)};

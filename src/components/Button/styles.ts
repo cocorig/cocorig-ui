@@ -1,11 +1,12 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import { centerContent, customTransition, disable, getCommonStyles, getSizesAndFontSize, toSizeUnit } from '../../css';
+import { centerContent, customTransition, disable, getCommonStyles, getSizesAndFontSize } from '../../css';
 import { BOX_SIZE_SET, COLOR_SET, marginStyle, getColorStyles, TEXT_COLORS } from '../../foundation';
 import { ButtonVariant } from '../../styled-system';
+import { toSizeUnit } from '../../utils';
 
-import { ButtonStyleProps, ButtonStyles } from './type';
+import type { ButtonStyleProps, ButtonStyles } from './types';
 
 export const commonButtonStyles = css`
   ${customTransition({

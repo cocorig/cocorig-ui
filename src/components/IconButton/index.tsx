@@ -3,7 +3,8 @@ import { Ref, forwardRef } from 'react';
 import styled from '@emotion/styled';
 
 import { Button } from '../Button';
-import { ButtonProps } from '../Button/type';
+
+import type { ButtonProps } from '../Button/types';
 
 export const IconButton = forwardRef(
   ({ children, label, ...props }: ButtonProps & { label: string }, ref: Ref<HTMLButtonElement>) => {

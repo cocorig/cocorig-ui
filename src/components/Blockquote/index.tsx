@@ -2,7 +2,6 @@ import { BlockquoteHTMLAttributes, forwardRef, Ref, useMemo } from 'react';
 
 import styled from '@emotion/styled';
 
-import { toSizeUnit } from '../../css';
 import {
   marginProps,
   marginStyle,
@@ -13,8 +12,9 @@ import {
   getColorStyles,
 } from '../../foundation';
 import { SystemProps } from '../../styled-system';
+import { toSizeUnit } from '../../utils';
 
-interface BlockquoteProps extends BlockquoteHTMLAttributes<HTMLQuoteElement>, CommonProps {}
+export interface BlockquoteProps extends BlockquoteHTMLAttributes<HTMLQuoteElement>, CommonProps {}
 type CommonProps = { borderRadius?: string | number } & SystemProps<'blockquote'> & SpacingProp;
 
 type BlockStyle = ColorStyleReturnType & CommonProps;

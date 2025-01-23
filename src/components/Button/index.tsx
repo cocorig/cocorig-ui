@@ -6,7 +6,8 @@ import { centerContent } from '../../css';
 import { marginProps } from '../../foundation';
 
 import { BaseButton, variantStyle } from './styles';
-import { ButtonProps, IconSpacing } from './type';
+
+import type { ButtonProps, IconSpacing } from './types';
 
 export const Button = forwardRef(
   (
