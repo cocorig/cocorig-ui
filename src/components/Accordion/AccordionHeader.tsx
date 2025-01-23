@@ -1,21 +1,15 @@
 /** @jsxImportSource @emotion/react */
 
-import { ButtonHTMLAttributes, ReactElement } from 'react';
-
 import styled from '@emotion/styled';
 
 import { centerContent } from '../../css';
 import { COLOR_SET } from '../../foundation';
-import { IconProps } from '../Icon';
 
 import { useAccordionItem } from './AccordionContext';
+import { AccordionIcon } from './AccordionIcon';
+import { AccordionHeaderProps } from './types';
 
-interface AccordionHeaderProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  icon: ReactElement;
-}
-type AccordionIconProps = IconProps & { color?: string };
-
-export const AccordionHeader = ({ children, icon, ...props }: AccordionHeaderProps) => {
+export const AccordionHeader = ({ children, indicatorColor, icon, ...props }: AccordionHeaderProps) => {
   const { getHeaderProps, getIconProps } = useAccordionItem();
   const headerProps = getHeaderProps(props);
   const iconProps = getIconProps(props);
@@ -23,7 +17,9 @@ export const AccordionHeader = ({ children, icon, ...props }: AccordionHeaderPro
   return (
     <StyledAccordionHeader type="button" {...headerProps}>
       <AccordionTitle>{children}</AccordionTitle>
-      <StyledIcon {...iconProps}>{icon}</StyledIcon>
+      <StyledIcon indicatorColor={indicatorColor} {...iconProps}>
+        {icon ? icon : <AccordionIcon />}
+      </StyledIcon>
     </StyledAccordionHeader>
   );
 };
@@ -55,8 +51,8 @@ const AccordionTitle = styled.div`
   width: 100%;
 `;
 
-const StyledIcon = styled.div<Pick<AccordionIconProps, 'color'>>`
+const StyledIcon = styled.div<Pick<AccordionHeaderProps, 'indicatorColor'>>`
   ${centerContent('inline')};
-  color: ${({ color }) => color ?? COLOR_SET.gray['900']};
+  color: ${({ indicatorColor }) => indicatorColor ?? COLOR_SET.gray['900']};
   font-size: inherit;
 `;

@@ -1,12 +1,12 @@
 /** @jsxImportSource @emotion/react */
 
-import { HTMLAttributes, useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
 
 import styled from '@emotion/styled';
 
 import { useAccordionItem } from './AccordionContext';
 
-type AccordionBodyProps = HTMLAttributes<HTMLDivElement>;
+import type { AccordionBodyProps } from './types';
 
 export const AccordionBody = ({ children, ...props }: AccordionBodyProps) => {
   const [contentHeight, setContentHeight] = useState(0);

@@ -3,27 +3,12 @@ import { createContext, useCallback, useContext } from 'react';
 import { useKeyboardNavigation } from '../../hook';
 import { PropsMerger } from '../../utils';
 
-import { AccordionStyleConfig } from './styles';
-
-export type AccordionContextType = {
-  headerRefs: React.MutableRefObject<HTMLButtonElement[]>;
-  closeAll: () => void;
-  openItems: number[];
-  toggleItem: (itemValue: number) => void;
-} & AccordionStyleConfig;
+import type { AccordionContextType, AccordionItemContextType } from './types';
 
 export const AccordionContext = createContext<AccordionContextType | null>(null);
 
-export type AccordionItemContextType = {
-  itemValue: number;
-  isExpanded: boolean;
-  toggle: () => void;
-};
-
-export const AccordionItemContext = createContext<AccordionItemContextType | null>(null);
-
 /**
- * Accordion Hook
+ * Accordion
  */
 export const useAccordion = () => {
   const context = useContext(AccordionContext);
@@ -45,8 +30,10 @@ export const useAccordion = () => {
 };
 
 /**
- * AccordionItem Hook
+ * AccordionItem
  */
+export const AccordionItemContext = createContext<AccordionItemContextType | null>(null);
+
 export const useAccordionItem = () => {
   const context = useContext(AccordionItemContext);
   if (!context) {

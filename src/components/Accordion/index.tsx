@@ -1,21 +1,19 @@
-import { HTMLAttributes, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import styled from '@emotion/styled';
 
-import { toSizeUnit } from '../../css';
-import { BORDER_RADIUS_SET, MarginSpacing, marginProps, marginStyle } from '../../foundation';
-import { SystemProps } from '../../styled-system';
+import { BORDER_RADIUS_SET, marginProps, marginStyle } from '../../foundation';
+import { toSizeUnit } from '../../utils';
 
 import { AccordionBody } from './AccordionBody';
 import { AccordionContext } from './AccordionContext';
 import { AccordionHeader } from './AccordionHeader';
 import { AccordionIcon } from './AccordionIcon';
 import { AccordionItem } from './AccordionItem';
-import { SIZE_SET, SizeConfig, variantStyle } from './styles';
+import { SIZE_SET, variantStyle } from './styles';
 
-export interface AccordionProps extends HTMLAttributes<HTMLUListElement>, SystemProps<'accordion'>, MarginSpacing {}
+import type { AccordionProps, AccordionStyle } from './types';
 
-type AccordionStyle = SizeConfig & MarginSpacing;
 export const Accordion = ({
   defaultId = [],
   allowMultiple = false,

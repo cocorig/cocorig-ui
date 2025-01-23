@@ -1,13 +1,8 @@
 /** @jsxImportSource @emotion/react */
 
-import { LiHTMLAttributes } from 'react';
-
 import { AccordionItemContext, useAccordion } from './AccordionContext';
 
-interface AccordionItemProps extends Omit<LiHTMLAttributes<HTMLLIElement>, 'children'> {
-  itemValue: number;
-  children?: React.ReactNode | ((props: { isExpanded: boolean }) => React.ReactNode);
-}
+import type { AccordionItemProps } from './types';
 
 export const AccordionItem = ({ itemValue, children, ...props }: AccordionItemProps) => {
   const { openItems, toggleItem, getAccordionItemProps } = useAccordion();
