@@ -5,7 +5,7 @@ import { fontStyle, customTransition, getCommonStyles } from '../../css';
 import { COLOR_PALLETTE } from '../../foundation';
 import { TooltipVariant } from '../../styled-system';
 
-import { TooltipProps } from '.';
+import { TooltipProps } from './types';
 
 const tooltipBaseStyles = css`
   position: absolute;

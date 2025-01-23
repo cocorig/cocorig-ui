@@ -1,12 +1,7 @@
-import { HTMLAttributes, forwardRef, Ref } from 'react';
-
-import { SystemProps } from '../../styled-system';
+import { forwardRef, Ref } from 'react';
 
 import { StyledTooltip } from './styles';
-
-export interface TooltipProps extends HTMLAttributes<HTMLDivElement>, SystemProps<'tooltip'> {
-  'data-tip': string;
-}
+import { TooltipProps } from './types';
 
 export const Tooltip = forwardRef(
   ({ children, 'data-tip': dataTip, ...props }: TooltipProps, ref: Ref<HTMLDivElement>) => {
