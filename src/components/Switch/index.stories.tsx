@@ -10,6 +10,8 @@ import { runTest } from './storyTest';
 
 import { Switch } from '.';
 
+import type { SwitchProps } from './types';
+
 const meta = {
   title: 'Components/Switch',
   component: Switch,
@@ -54,7 +56,7 @@ const meta = {
 export default meta;
 export type Story = StoryObj<typeof meta>;
 
-const renderSwitch = (args, overrides = {}) => (
+const renderSwitch = (args: SwitchProps, overrides = {}) => (
   <Switch {...args} {...overrides} onCheckedChange={(event) => args.onCheckedChange(event)} />
 );
 
