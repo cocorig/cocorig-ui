@@ -18,6 +18,6 @@
     "moduleResolution": "node",
     "jsx": "react-jsx"
   },
-  "include": ["src", "**/*.ts"],
-  "exclude": ["**/*.stories.tsx", "node_modules", "*/storybook-props", "dist"]
+  "include": ["src"],
+  "exclude": ["**/*.stories.tsx", "*/storybook-props", "**/storyTest.tsx", "node_modules", "dist"]
 }
