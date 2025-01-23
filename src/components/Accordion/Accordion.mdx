@@ -1,0 +1,32 @@
+import { Meta, Canvas, Story, Source, Controls } from '@storybook/blocks';
+import { Accordion } from '.';
+import { colorPaletteOptions } from '../../foundation';
+import { getDefaultValue, getPropsType } from '../../storybook-props';
+import { runTest, runTestWithArgs } from './storyTest';
+import * as AccordionStories from './index.stories';
+
+<Meta title="Components/Accordion" of={AccordionStories} components={Accordion} />
+
+# Accordion
+
+<Canvas of={AccordionStories.Default} />
+
+<Controls />
+
+### 동시 확장
+
+`Accordion`에 `allowMultiple`을 전달하면 여러 항목을 동시에 확장할 수 있습니다.
+
+<Canvas of={AccordionStories.MultipleOpen} />
+
+### 초기 확장 설정
+
+`defaultId` 속성을 사용하여 초기 확장할 아코디언 항목을 지정할 수 있습니다.
+
+<Canvas of={AccordionStories.DefaultOpen} />
+
+### Render Props 활용
+
+`isExpanded`상태를 활용할 수 있습니다.
+
+<Canvas of={AccordionStories.WithRenderProps} />
