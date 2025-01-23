@@ -6,6 +6,5 @@ export * from './transition';
 export * from './maxTextLines';
 export * from './hideScrollbars';
 export * from './centerContent';
-export * from './toSizeUnit';
 export * from './commonStyleFn';
 export * from './baseStyle';
