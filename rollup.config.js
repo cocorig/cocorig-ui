@@ -10,18 +10,13 @@ import path from 'path';
 const extensions = ['.js', 'jsx', '.ts', '.tsx'];
 
 // 공통 플러그인 설정
-const commonPlugins = [
-  resolve({ extensions }),
-  commonjs(),
-  terser(),
-  peerDepsExternal(),
-  typescript({ tsconfig: './tsconfig.json' }),
-];
+const commonPlugins = [resolve({ extensions }), commonjs(), terser(), peerDepsExternal(), typescript()];
 
 // 공통 Output 설정
 const commonOutputOptions = {
   preserveModules: true,
   preserveModulesRoot: 'src',
+  sourcemap: true,
 };
 
 // external 옵션
@@ -45,7 +40,9 @@ const findIndexFiles = (dir) => {
       const stat = fs.statSync(filePath);
 
       if (stat.isDirectory()) {
-        stack.push(filePath);
+        if (!filePath.includes('src/storybook-props') && !filePath.includes('src/styled-system')) {
+          stack.push(filePath);
+        }
       } else if (/^index\.(ts|tsx)$/.test(file)) {
         results.push(filePath);
       }
@@ -84,12 +81,14 @@ export default [
       {
         dir: 'dist/types',
         format: 'esm',
+        sourcemap: true,
       },
     ],
     external: externalDependencies,
     plugins: [
       ...commonPlugins,
       typescript({
+        tsconfig: './tsconfig.json',
         declarationDir: 'dist/types',
         declaration: true,
       }),
