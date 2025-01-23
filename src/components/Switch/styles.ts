@@ -1,10 +1,10 @@
 import styled from '@emotion/styled';
 
-import { toSizeUnit } from '../../css';
 import { BORDER_RADIUS_SET, COLOR_SET, COLOR_PALLETTE } from '../../foundation';
 import { SwitchVariant } from '../../styled-system';
+import { toSizeUnit } from '../../utils';
 
-import { SwitchProps } from '.';
+import { SwitchProps } from './types';
 
 const SIZE_SET: Record<SwitchVariant['size'], { w: number; h: number }> = {
   md: {

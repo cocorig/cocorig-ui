@@ -1,19 +1,15 @@
 import { forwardRef, HTMLAttributes, ReactElement, Ref, useMemo } from 'react';
 
-import { MarginSpacing, marginProps } from '../../foundation';
-import { SystemProps } from '../../styled-system';
+import { marginProps } from '../../foundation';
 import { variantStyle } from '../Button/styles';
-import { ButtonStyles } from '../Button/type';
 
 import { BaseBadge } from './styles';
+import { CommonProps } from './types';
 
 export interface BadgeProps extends HTMLAttributes<HTMLDivElement>, CommonProps {
   leftIcon?: ReactElement;
   rightIcon?: ReactElement;
 }
-export type CommonProps = MarginSpacing & SystemProps<'badge'>;
-
-export type BadgeStyleProps = ButtonStyles & CommonProps;
 
 export const Badge = forwardRef(
   (

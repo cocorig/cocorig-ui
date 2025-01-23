@@ -1,20 +1,8 @@
-import { LabelHTMLAttributes, ReactElement, useId } from 'react';
-
-import { SystemProps } from '../../styled-system';
+import { useId } from 'react';
 
 import { StyledSwitch } from './styles';
 
-export interface SwitchProps extends LabelHTMLAttributes<HTMLLabelElement>, SystemProps<'switch'> {
-  label: string;
-  checked: boolean;
-  onCheckedChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  thumbLabel?: ChangeStateProps;
-  trackLabel?: ChangeStateProps;
-}
-type ChangeStateProps = {
-  on: ReactElement;
-  off: ReactElement;
-};
+import type { SwitchProps } from './types';
 
 export const Switch = ({
   children,

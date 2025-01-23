@@ -5,7 +5,7 @@ import { marginStyle, textStyle } from '../../foundation';
 import { BadgeVariant } from '../../styled-system';
 import { commonElementStyles } from '../Button/styles';
 
-import { BadgeStyleProps } from '.';
+import { BadgeStyleProps } from './types';
 
 const SIZE_SET: Record<BadgeVariant['size'], SerializedStyles> = {
   '2xs': css`
