@@ -1,3 +1,3 @@
-export * from './propTypes';
-export * from './polymorphic';
-export * from './asProp';
+export type { StyledProperties } from './propTypes';
+export type { RefForElement, PolymorphicProps } from './polymorphic';
+export type { WithAsProp } from './asProp';
