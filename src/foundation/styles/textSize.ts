@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 
-import { toSizeUnit } from '../../css';
+import { toSizeUnit } from '../../utils';
 
 import { BASE_SIZE_SET } from './fontSize';
 import { LINE_HEIGHTS_SET } from './lineHeight';

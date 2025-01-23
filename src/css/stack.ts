@@ -3,8 +3,8 @@ import React from 'react';
 import { css } from '@emotion/react';
 
 import { SpacingProp, marginStyle, paddingStyle } from '../foundation';
+import { toSizeUnit } from '../utils';
 
-import { toSizeUnit } from './toSizeUnit';
 export type FixedDirectionStackProps = {
   gap?: string | number;
   alignItems?: React.CSSProperties['alignItems'];

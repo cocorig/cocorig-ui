@@ -1,8 +1,7 @@
 import { css } from '@emotion/react';
 
 import { BOX_SIZE_SET, SizesToken } from '../foundation';
-
-import { toSizeUnit } from './toSizeUnit';
+import { toSizeUnit } from '../utils';
 
 export const fontStyle = (size: SizesToken) => {
   const { fontSize, lineHeight } = BOX_SIZE_SET[size];
