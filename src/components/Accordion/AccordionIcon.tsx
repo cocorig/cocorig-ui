@@ -2,9 +2,7 @@ import { Icon, IconProps } from '../Icon';
 
 import { useAccordionItem } from './AccordionContext';
 
-type AccordionIconProps = IconProps & { color?: string };
-
-export const AccordionIcon = ({ ...props }: AccordionIconProps) => {
+export const AccordionIcon = ({ ...props }: IconProps) => {
   const { getIconProps } = useAccordionItem();
   const iconProps = getIconProps(props);
 
