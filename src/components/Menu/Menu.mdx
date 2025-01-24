@@ -1,0 +1,33 @@
+import { Meta, Canvas, Story, Source, Controls } from '@storybook/blocks';
+import { Menu } from '.';
+import * as MenuStories from './index.stories';
+
+<Meta of={MenuStories} />
+
+# Menu
+
+<div style={{ display: 'flex', justifyContent: 'center', paddingTop: '50px', paddingBottom: '100px' }}>
+  <Story of={MenuStories.Default} />
+</div>
+
+<Controls />
+
+---
+
+### 선택된 값 스타일 지정
+
+`Menu.List`에서는 `selectStyles`와 `selectIcon`을 사용하여 선택된 항목의 스타일과, 아이콘을 추가할 수 있습니다.
+
+<Source language="tsx" dark code={MenuStories.Default.parameters.docs.source.code} />
+
+---
+
+### Group
+
+`Menu.Group`을 사용해 `Menu.Item`을 그룹화하고,`Menu.Title`로 각 그룹에 제목을 추가할 수도 있습니다.
+
+<div style={{ display: 'flex', justifyContent: 'center', paddingTop: '50px', paddingBottom: '100px' }}>
+  <Story of={MenuStories.Group} />
+</div>
+
+<Source language="tsx" dark code={MenuStories.Group.parameters.docs.source.code} />
