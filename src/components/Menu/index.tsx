@@ -1,10 +1,10 @@
-import React, { HTMLAttributes } from 'react';
+import { HTMLAttributes } from 'react';
 
 import styled from '@emotion/styled';
 
-import { toSizeUnit } from '../../css';
 import { BORDER_RADIUS_SET, COLOR_SET, TEXT_SIZE_SET } from '../../foundation';
 import { SystemProps } from '../../styled-system';
+import { toSizeUnit } from '../../utils';
 
 import { MenuProvider } from './MenuContext';
 import { MenuGroup, MenuTitle } from './MenuGroup';

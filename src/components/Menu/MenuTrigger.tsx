@@ -2,11 +2,12 @@ import { useRef } from 'react';
 
 import { useClickOutside } from '../../hook/useClickOutside';
 import { Button } from '../Button';
-import { ButtonProps } from '../Button/type';
 
 import { useMenu } from './useMenu';
 
-type MenuTriggerProps = ButtonProps;
+import type { ButtonProps } from '../Button/types';
+
+export type MenuTriggerProps = ButtonProps;
 
 export const MenuTrigger = ({ children, ...props }: MenuTriggerProps) => {
   const { getTriggerProps, onClose } = useMenu();
