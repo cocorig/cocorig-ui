@@ -387,3 +387,92 @@ export type MarginSpacing = {
 | Switch      | 클릭 시 토글                                              | 스위치를 클릭한다                                                                                       | 사용자가 스위치를 클릭할 때 상태가 토글 되는지 확인                                                  |
 | Tabs        | 탭을 클릭하면 해당 탭이 활성화된다.                       | role이 tab인 요소를 찾고, 특정 탭을 클릭한다                                                            | 클릭된 탭의 aria-selected 속성이 true 인지 확인한다.                                                 |
 |             | 다른 탭을 클릭하면 이전 탭은 비활성화된다.                | 현재 활성화된 탭 이외의 다른 tab 요소를 클릭한다                                                        | 새로 클릭된 탭의 aria-selected 속성이 true로 설정되고, 이전에 활성화된 탭의 속성은 false로 설정된다. |
+
+# 4. 배포
+
+## 🚨 빌드 시 생긴 문제들
+
+### TS4023 에러
+
+<img width="807" alt="TS4023 에러" src="https://github.com/user-attachments/assets/1857c49b-bd13-4926-b913-bf0fe819f61a" />
+
+### 문제 원인
+
+`TS4023: Exported Variable <x> has or is using name <y> from external module but cannot be named` 에러는 TypeScript에서 선언 파일을 생성할 때 발생하는 문제로, **타입을 정확히 추론할 수 없거나, 타입 이름을 제대로 지정할 수 없을 때** 발생한다.
+
+Tab 컴포넌트 내부에서 Tab.List, Tab.Content, Tab.Trigger의 자식 컴포넌트들이 타입을 명시적으로 `export` 하지 않아, Tab 컴포넌트에서 타입을 추론하지 못해 생기는 문제이다.
+
+### 문제 해결
+
+각 내부 컴포넌트에서 타입을 명시적으로 `export` 해서 해결하였다.
+
+🔗 [TS4023: Exported variable 'X' has or is using name 'Y' from external module 'a/file/path' but cannot be named 이슈](https://github.com/microsoft/TypeScript/issues/5711) <br>
+
+---
+
+### 순환 참조 (Circular Dependency) 문제
+
+- `모듈 의존성` : 모듈 A가 모듈 B를 사용하면 `A는 B의 의존성이 있다`라고 할 수 있으며, 이 관계를 `A -> B`로 표현한다.
+
+- `순환 참조` : 순환 참조 문제는 모듈 간에 서로 참조하는 경우를 말한다. `A -> B -> C -> A`와 같이 모듈들이 서로 참조하면서 무한 루프가 발생할 수 있다.
+
+#### 예시
+
+- a.js
+
+```js
+// a 모듈은 b 모듈을 가져온다
+import { b } from '/b.js';
+
+export const a = 'a';
+console.log(b);
+```
+
+- b.js
+
+```js
+// b 모듈도 a 모듈을 가져온다.
+import { a } from './a.js';
+
+export const b = 'b';
+console.log(a);
+```
+
+이런 방식으로 `a.js`와 `b.js`가 서로를 참조하게 되어 순환 참조 문제가 발생한다.
+
+<br>
+
+### 해결 방법
+
+1. 다른 모듈을 필요로 하지 않는(의존성이 없는) `독립적인 모듈`을 만든다.
+2. `모든 코드를 한 파일에 작성`해 실행되는 순서를 제어할 수 있다.
+3. `내부 모듈 패턴 (Internal Module Pattern)`으로 모든 로컬 모듈을 하나의 파일(ex: `internal.js`) 에서 가져오는 파일을 만든다. 다른 모듈들은 반드시 `internal.js` 에서만 모듈을 가져오게 한다.
+   `index.js`는 주요 시작점으로 `internal.js` 파일에서 내보낸 모듈을 불러와 필요한 것만 `export` 한다.
+
+---
+
+#### 정리
+
+🚨 순환 참조 문제 발생 이유
+
+- 서로 의존성을 가진 모듈이 있는 경우
+- 아직 초기화되지 않은 모듈을 읽으려 할 때
+
+🔗 [순환 참조\_김정환님 블로그](https://jeonghwan-kim.github.io/dev/2020/03/24/circular-dependancy.html) <br>
+🔗 [[번역] 자바스크립트 & 타입스크립트의 순환 참조를 한방에 해결하는 방법](https://rinae.dev/posts/fix-circular-dependency-kr/) <br>
+
+<br>
+
+### 문제 원인
+
+<img width="100%"  alt="Image" src="https://github.com/user-attachments/assets/0e01d5fe-7c8d-44ba-9c47-0477ab149edd" />
+
+```
+src/css/index.ts -> src/css/sizeFn.ts -> src/foundation/index.ts -> src/foundation/styles/index.ts -> src/foundation/styles/textSize.ts-> src/css/index.ts
+```
+
+`css` 모듈이 `foundation` 모듈에 의존성을 가지는데, `foundation` 모듈이 다시 `css` 모듈을 참조해 순환 참조 문제가 발생했다.
+
+### 문제 해결
+
+`단방향 의존성`을 갖도록 수정하기 위해 css 모듈만 foundation 모듈에 의존성을 가지도록 변경하고, foundation 모듈은 `독립적인 모듈`로, 다른 모듈을 참조하지 않도록 수정하였다. 또한 공통적으로 사용되는 모듈은 utils 폴더로 이동 후 분리하였다.
