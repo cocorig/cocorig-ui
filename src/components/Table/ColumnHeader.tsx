@@ -4,13 +4,19 @@ import styled from '@emotion/styled';
 
 import { toSizeUnit } from '../../utils';
 
-export interface ColumnHeaderProps extends ThHTMLAttributes<HTMLTableCellElement>, CommonStyle {}
+export type ColumnHeaderProps = CommonStyle & ThHTMLAttributes<HTMLTableCellElement>;
+
 export type CommonStyle = {
+  /** 텍스트 정렬 방식을 설정합니다. */
   textAlign?: CSSProperties['textAlign'];
+  /** 너비를 설정합니다. */
   width?: string | number;
+  /** 최소 너비를 설정합니다. */
   minW?: string | number;
+  /** 색상을 설정합니다. */
   color?: string;
 };
+
 export const ColumnHeader = ({ children, ...props }: ColumnHeaderProps) => {
   return <CommonStyled {...props}>{children}</CommonStyled>;
 };

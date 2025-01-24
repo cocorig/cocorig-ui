@@ -2,7 +2,8 @@ import { TdHTMLAttributes } from 'react';
 
 import { CommonStyle, CommonStyled } from './ColumnHeader';
 
-export interface CellProps extends TdHTMLAttributes<HTMLTableCellElement>, CommonStyle {}
+export type CellProps = CommonStyle & TdHTMLAttributes<HTMLTableCellElement>;
+
 export const Cell = ({ children, ...props }: CellProps) => {
   return <StyledCell {...props}>{children}</StyledCell>;
 };
