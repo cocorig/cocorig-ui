@@ -5,12 +5,21 @@ import styled from '@emotion/styled';
 
 import { COLOR_SET, Heading, HeadingProps } from '../../foundation';
 
-interface MenuGroupProps extends HTMLAttributes<HTMLUListElement> {
+export interface MenuGroupProps extends HTMLAttributes<HTMLUListElement> {
+  /**
+   * menu 그룹 항목들 사이에 구분선을 추가할 때, 구분선의 색상을 설정합니다.
+   */
   dividerColor?: string;
 }
 
-type MenuTitleProps = {
+export type MenuTitleProps = {
+  /**
+   * menu 그룹에 속한 항목들을 구분하는 제목을 설정합니다.
+   */
   title: string;
+  /**
+   * menu title 앞에 표시할 아이콘을 설정할 수 있습니다.
+   */
   icon?: ReactElement;
 } & HeadingProps;
 
