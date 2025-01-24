@@ -1,11 +1,11 @@
-import React, { TableHTMLAttributes, useMemo } from 'react';
+import { TableHTMLAttributes, useMemo } from 'react';
 
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import { toSizeUnit } from '../../css';
 import { BORDER_RADIUS_SET, ColorStyleReturnType, getColorStyles, textStyle } from '../../foundation';
 import { SystemProps } from '../../styled-system';
+import { toSizeUnit } from '../../utils';
 
 import { Body } from './Body';
 import { Cell } from './Cell';
@@ -15,16 +15,14 @@ import { Head } from './Head';
 import { Row } from './Row';
 import { SIZE_SET } from './styles';
 
-interface TableProps extends TableHTMLAttributes<HTMLTableElement>, SystemProps<'table'> {
-  pinnedHeader?: boolean;
-}
+interface TableProps extends TableHTMLAttributes<HTMLTableElement>, SystemProps<'table'> {}
 
-type TableStyle = ColorStyleReturnType & Pick<TableProps, 'size' | 'pinnedHeader' | 'variant'>;
+type TableStyle = ColorStyleReturnType & Pick<TableProps, 'size' | 'variant'>;
 
-export const Table = ({ children, colorScheme, pinnedHeader = false, ...props }: TableProps) => {
+export const Table = ({ children, colorScheme, ...props }: TableProps) => {
   const COLOR = useMemo(() => getColorStyles(colorScheme), [colorScheme]);
   return (
-    <StyledTable pinnedHeader={pinnedHeader} {...COLOR} {...props}>
+    <StyledTable {...COLOR} {...props}>
       {children}
     </StyledTable>
   );
@@ -39,7 +37,7 @@ const StyledTable = styled.table<TableStyle>`
   font-variant-numeric: lining-nums tabular-nums;
   overflow: hidden;
 
-  ${({ pinnedHeader, variant = 'outline', size = 'sm', soft, subtle }) => {
+  ${({ variant = 'outline', size = 'sm', soft, subtle }) => {
     const { p } = SIZE_SET[size];
 
     return css`
@@ -48,8 +46,7 @@ const StyledTable = styled.table<TableStyle>`
       --bg-color: ${variant === 'outline' ? soft : 'transparent'};
       ${textStyle(size)}
 
-      ${!pinnedHeader &&
-      variant === 'outline' &&
+      ${variant === 'outline' &&
       css`
         box-shadow: 0 0 0 1px var(--border-color);
         border-radius: ${BORDER_RADIUS_SET.default};
