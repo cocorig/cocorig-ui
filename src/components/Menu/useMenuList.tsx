@@ -1,6 +1,6 @@
 import { useCallback, useContext } from 'react';
 
-import { useKeyboardNavigation } from '../../hook/useKeyboardNavigation';
+import { useKeyboardNavigation } from '../../hook';
 import { PropsMerger } from '../../utils';
 
 import { MenuListContext } from './MenuListContext';
@@ -11,7 +11,7 @@ export const useMenuList = (itemIndex: number) => {
   if (!context) {
     throw new Error('useMenuListContext must be used within a MenuList');
   }
-  const { value, onValueChange, selectStyle, itemRefs } = context;
+  const { value, onValueChange, itemRefs, selectIcon, selectStyles } = context;
   const { setOpen } = useMenu();
 
   const { onKeyDown } = useKeyboardNavigation<HTMLLIElement>({
@@ -35,20 +35,19 @@ export const useMenuList = (itemIndex: number) => {
           onValueChange(props.value as string);
           setOpen(false);
         },
-
         onKeyDown,
         onMouseEnter: () => itemRefs?.current[itemIndex]?.focus(),
         'data-value': props.value,
         role: 'menuitem',
         tabIndex: 0,
         selected: isSelected,
-        selectIcon: selectStyle?.icon,
-        css: selectStyle?.css,
+        selectIcon: selectIcon,
+        css: isSelected ? selectStyles : undefined,
         ...props,
       };
     },
-    [value, selectStyle?.icon, selectStyle?.css, onValueChange, setOpen, onKeyDown, itemRefs, itemIndex],
+    [value, onKeyDown, selectIcon, selectStyles, onValueChange, setOpen, itemRefs, itemIndex],
   );
 
-  return { getMenuItemProps, selectStyle };
+  return { getMenuItemProps };
 };

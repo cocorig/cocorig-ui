@@ -2,17 +2,29 @@ import { HTMLAttributes, useEffect, useRef } from 'react';
 
 import styled from '@emotion/styled';
 
-import { toSizeUnit } from '../../css';
 import { SHADOWS_SET, slide } from '../../foundation';
+import { toSizeUnit } from '../../utils';
 
 import { MenuListContextType, MenuListProvider } from './MenuListContext';
 import { useMenu } from './useMenu';
 
-interface MenuListProps extends HTMLAttributes<HTMLUListElement>, CommonProps, Omit<MenuListContextType, 'itemRefs'> {}
+export interface MenuListProps
+  extends HTMLAttributes<HTMLUListElement>,
+    CommonProps,
+    Omit<MenuListContextType, 'itemRefs'> {}
+
 type CommonProps = {
+  /**
+   * 최소 너비를 설정합니다.
+   */
   minW: number | string;
+  /**
+   * 메뉴가 `menuTrigger`를 기준으로 어느 방향에 위치할지 설정합니다.
+   * `left`가 설정되면 메뉴는 왼쪽에, `right`가 설정되면 메뉴는 오른쪽에 배치됩니다.
+   */
   position?: 'left' | 'right';
 };
+
 type MenuListStyle = {
   open?: boolean;
 } & CommonProps;
@@ -20,8 +32,9 @@ type MenuListStyle = {
 export const MenuList = ({
   value,
   position = 'left',
+  selectIcon,
+  selectStyles,
   onValueChange,
-  selectStyle,
   children,
   ...props
 }: MenuListProps) => {
@@ -40,7 +53,13 @@ export const MenuList = ({
   }, [open]);
 
   return (
-    <MenuListProvider value={value} itemRefs={itemRefs} onValueChange={onValueChange} selectStyle={selectStyle}>
+    <MenuListProvider
+      value={value}
+      itemRefs={itemRefs}
+      selectStyles={selectStyles}
+      selectIcon={selectIcon}
+      onValueChange={onValueChange}
+    >
       {open && (
         <List position={position} {...props} ref={listRef} {...menuProps}>
           {children}

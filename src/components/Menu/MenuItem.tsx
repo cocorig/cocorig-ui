@@ -1,40 +1,43 @@
 import { LiHTMLAttributes, ReactElement } from 'react';
 
-import { SerializedStyles } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import { COLOR_SET } from '../../foundation';
-import { Icon } from '../Icon';
+import { Css } from '../../utils';
 
 import { useMenuList } from './useMenuList';
 
-interface MenuItemProps extends LiHTMLAttributes<HTMLLIElement> {
+export interface MenuItemProps extends LiHTMLAttributes<HTMLLIElement> {
+  /**
+   * menu의 상태를 설정합니다.
+   */
   value: string;
+  /**
+   * 각 menuItem의 고유 식별값을 설정합니다.
+   */
   itemIndex: number;
 }
 
 type MenuItemStyle = {
-  isSelected?: boolean;
-  selectCSS?: SerializedStyles | SerializedStyles[];
+  selectIcon?: boolean;
   hasSelectIcon?: boolean;
 };
 
 export const MenuItem = ({ children, itemIndex, ...props }: MenuItemProps) => {
   const { getMenuItemProps } = useMenuList(itemIndex);
-
   const menuItemProps = getMenuItemProps(props);
-
-  const { selected, selectIcon, ...itemProps } = menuItemProps as {
+  const { selected, selectIcon, css, ...itemProps } = menuItemProps as {
     selected: boolean;
     selectIcon: ReactElement;
+    css: Css;
   };
-  const hasSelectIcon = !!selectIcon;
+
+  const hasSelectIcon = selected && !!selectIcon;
 
   return (
-    <Item isSelected={selected} selectCSS={menuItemProps.css} {...itemProps}>
-      <ItemButton hasSelectIcon={hasSelectIcon} isSelected={selected} tabIndex={-1}>
-        {selected && hasSelectIcon && <Icon style={{ width: '1em', height: '1em' }}>{selectIcon}</Icon>}
-
+    <Item {...itemProps}>
+      <ItemButton css={css} hasSelectIcon={hasSelectIcon} selectIcon={!!selectIcon}>
+        {hasSelectIcon && selectIcon}
         {children}
       </ItemButton>
     </Item>
@@ -51,8 +54,6 @@ const Item = styled.li<MenuItemStyle>`
   outline: 0;
   font-size: var(--menu-fontSize);
   line-height: var(--menu-lineHeight);
-
-  ${({ isSelected, selectCSS }) => isSelected && selectCSS}
   border-radius: var(--menu-radius);
   &:focus,
   &:focus-visible,
@@ -73,14 +74,14 @@ const ItemButton = styled.button<MenuItemStyle>`
   user-select: none;
 
   padding-block: var(--menu-py);
-  padding-inline-start: ${({ hasSelectIcon, isSelected }) =>
-    hasSelectIcon
-      ? isSelected
-        ? 'var(--menu-px)'
-        : 'calc(var(--menu-px) + 14px +  var(--menu-gap))'
-      : 'var(--menu-px)'};
-
   padding-inline-end: var(--menu-px);
+  padding-inline-start: ${({ selectIcon, hasSelectIcon }) =>
+    hasSelectIcon
+      ? 'var(--menu-px)'
+      : selectIcon
+        ? 'calc(var(--menu-px) + 14px +  var(--menu-gap))'
+        : 'var(--menu-px)'};
+
   text-align: start;
   text-decoration: none;
   cursor: pointer;
