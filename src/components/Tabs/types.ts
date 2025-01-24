@@ -7,7 +7,7 @@ import { SystemProps } from '../../styled-system';
 export type TabProps = {
   children?: ReactNode;
   /**
-   * 초기 선택 값 (`Uncontrolled` 상태로 동작할 때 사용합니다).
+   * 초기 선택 값 (`Uncontrolled` 상태로 동작할 때 반드시 설정해야 하는 값입니다).
    */
   defaultValue?: string;
   /**
@@ -47,12 +47,18 @@ export type IndicatorProps = {
  * TabContent
  */
 export interface TabContentProps extends HTMLAttributes<HTMLDivElement> {
+  /**
+   * 각 `TabContent`의 고유 식별값을 나타냅니다.
+   */
   value: string;
 }
 /**
  * TabList
  */
 export interface TabListProps extends HTMLAttributes<HTMLDivElement> {
+  /**
+   * `TabList`의 정렬 방법을 설정합니다.
+   */
   justify?: 'start' | 'center' | 'end';
 }
 
@@ -60,5 +66,8 @@ export interface TabListProps extends HTMLAttributes<HTMLDivElement> {
  * TabTrigger
  */
 export interface TabTriggerProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  /**
+   * 각 `TabTrigger`의 고유 식별값을 나타냅니다.
+   */
   value: string;
 }
